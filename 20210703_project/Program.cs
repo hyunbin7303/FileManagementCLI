@@ -34,7 +34,7 @@ namespace CSharpTutA.cs
  
             // Pick up the TV remote
             IElectronicDevice TV = TVRemote.GetDevice();
- 
+            TVRemote a = new TVRemote();
             // Create the power button
             PowerButton powBut = new PowerButton(TV);
  
