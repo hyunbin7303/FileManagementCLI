@@ -35,12 +35,12 @@ namespace ConsoleApp4
         // tw.WriteLine(p.First);
 
         // tw.Close();
-        // string myString = "hi there IP:127.0.0.1";
+        // string myString = "hi there IP:127.0.0.1";                                                           
         // string toBeSearched = "IP:";
         // string ipaddr = myString.Substring(myString.IndexOf(toBeSearched) + toBeSearched.Length);
         string textreader;
         string line;
-        TextReader Person_1 =new StreamReader("Person_ErrorCase.txt");//Person으로 바꿔서하면 1~6까지 결과값나옴
+        TextReader Person_1 =new StreamReader("Person.txt");//Person으로 바꿔서하면 1~6까지 결과값나옴
         List <Person> people = new List <Person>();
         int Lindex=100;
         Person aa =new Person();          
@@ -148,7 +148,7 @@ namespace ConsoleApp4
              }                                                 
         }  
         foreach (Person p in people)
-        Console.WriteLine("리스트에 들어있는애들 personcode{0}",p.PersonCode);
+            Console.WriteLine("personcode: {0}, FirstName : {1}, LastName : {2}, Height {3}",p.PersonCode, p.First, p.Last, p.Height);
         }
     }
 }
