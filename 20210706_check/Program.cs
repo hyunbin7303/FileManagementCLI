@@ -40,7 +40,7 @@ namespace ConsoleApp4
         // string ipaddr = myString.Substring(myString.IndexOf(toBeSearched) + toBeSearched.Length);
         string textreader;
         string line;
-        TextReader Person_1 =new StreamReader("Person.txt");//Person으로 바꿔서하면 1~6까지 결과값나옴
+        TextReader Person_1 =new StreamReader("Person_ErrorCase.txt");//Person으로 바꿔서하면 1~6까지 결과값나옴
         List <Person> people = new List <Person>();
         int Lindex=100;
         Person aa =new Person();          
@@ -49,7 +49,8 @@ namespace ConsoleApp4
         int alphabet=0;
 
         while((line = Person_1.ReadLine()) != null)  
-        {   check++;
+        {   
+            check++;
             Lindex= line.IndexOf("---------");
             if (Lindex==0)
             {
@@ -66,7 +67,7 @@ namespace ConsoleApp4
                 }
                 catch(FormatException)
                     {   
-                        Console.WriteLine("Height가 int형이 아닙니다.");
+                //        Console.WriteLine("Height가 int형이 아닙니다.");
                     }                
             }
             Lindex= line.LastIndexOf("PersonCode:");
@@ -79,7 +80,7 @@ namespace ConsoleApp4
                 }
                 catch(FormatException)
                     {   
-                        Console.WriteLine("Personcode가 int형이 아닙니다.");
+                      //  Console.WriteLine("Personcode가 int형이 아닙니다.");
                     }    
             }
             Lindex= line.LastIndexOf("FirstName:");
@@ -100,7 +101,7 @@ namespace ConsoleApp4
                 }
                 else if(alphabet>0)
                 {    
-                    Console.WriteLine("Firstname이 str형이 아닙니다.");
+                  //  Console.WriteLine("Firstname이 str형이 아닙니다.");
                     alphabet=0;
                 }
             }
@@ -122,7 +123,7 @@ namespace ConsoleApp4
                 }
                 else if(alphabet>0)
                 {    
-                    Console.WriteLine("Lastname이 str형이 아닙니다.");
+                 //   Console.WriteLine("Lastname이 str형이 아닙니다.");
                     alphabet=0;
                 }
             }           
@@ -148,7 +149,9 @@ namespace ConsoleApp4
              }                                                 
         }  
         foreach (Person p in people)
-            Console.WriteLine("personcode: {0}, FirstName : {1}, LastName : {2}, Height {3}",p.PersonCode, p.First, p.Last, p.Height);
+             Console.WriteLine("personcode: {0}, FirstName : {1}, LastName : {2}, Height {3}",p.PersonCode, p.First, p.Last, p.Height);
+            // Console.WriteLine("personcode: {0}",p.PersonCode);
+
         }
     }
 }
