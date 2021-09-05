@@ -1,8 +1,7 @@
 {
   "profiles": {
     "FileManager": {
-      "commandName": "Project",
-      "commandLineArgs": "commit -m \"changed code to use CommandLineParser\""
+      "commandName": "Project"
     }
   }
 }
