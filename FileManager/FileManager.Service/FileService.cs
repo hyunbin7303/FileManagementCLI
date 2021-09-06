@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FileManager
+namespace FileManager.Service
 {
     public class FileService : IFileService
     {

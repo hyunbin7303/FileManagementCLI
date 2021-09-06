@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManager", "FileManager\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManager.Domain", "FileManager.Domain\FileManager.Domain.csproj", "{EC749F0A-CCF0-425B-978F-4756146FF296}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManager.Service", "FileManager.Service\FileManager.Service.csproj", "{C4455917-6B97-438D-AD00-A7426B4804A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManager.DAL", "FileManager.DAL\FileManager.DAL.csproj", "{37502458-0210-4AD0-922E-0493A86CB885}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{EC749F0A-CCF0-425B-978F-4756146FF296}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC749F0A-CCF0-425B-978F-4756146FF296}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC749F0A-CCF0-425B-978F-4756146FF296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4455917-6B97-438D-AD00-A7426B4804A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4455917-6B97-438D-AD00-A7426B4804A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4455917-6B97-438D-AD00-A7426B4804A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4455917-6B97-438D-AD00-A7426B4804A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37502458-0210-4AD0-922E-0493A86CB885}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37502458-0210-4AD0-922E-0493A86CB885}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37502458-0210-4AD0-922E-0493A86CB885}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37502458-0210-4AD0-922E-0493A86CB885}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,4 @@
 ﻿using CommandLine;
-using FileManager.Command;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -42,27 +41,19 @@ namespace FileManager
         {
             switch (obj)
             {
-                case FileUploadOption c:
+                case FileUploadOptions c:
+                    FileUploadOptions fileUploader = new FileUploadOptions();
+                    fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj);
                     break;
-                case DirectoryChangeOption d:
+                case DirectoryChangeOptions d:
                     break;
-                //case Options o:
-                //    break;
-                case DefaultVerbOption v:
+
+                case DirectoryDisplayOptions q:
                     break;
+
             }
         }
 
-        static IServiceProvider BuildServiceProvider(string[] args)
-        {
-            IServiceCollection collection = new ServiceCollection();
-            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appSettings.json", optional: false).AddCommandLine(args).Build();
-            IConfig config = configuration.Get<Config>();
-
-            collection.AddSingleton<Options>();
-            collection.AddSingleton<IConfig>(config);
-            return collection.BuildServiceProvider();
-        }
 
     }
 }
