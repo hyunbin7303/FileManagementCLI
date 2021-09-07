@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="3rd Parties\GoogleAPI\" />
+    <Folder Include="3rd Parties\DropboxAPI\" />
+    <Folder Include="3rd Parties\" />
+    <Folder Include="DbAccess\" />
+  </ItemGroup>
+
+</Project>

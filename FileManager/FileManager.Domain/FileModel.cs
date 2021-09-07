@@ -4,5 +4,6 @@ namespace FileManager.Domain
 {
     public class FileModel
     {
+
     }
 }

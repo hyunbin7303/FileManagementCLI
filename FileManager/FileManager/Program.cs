@@ -9,17 +9,8 @@ using System.Threading.Tasks;
 
 namespace FileManager
 {
-    public interface IConfig
-    {
-        string FileUploaderDestination { get; set; }
-    }
-    public class Config : IConfig
-    {
-        public string FileUploaderDestination { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    }
     class Program
     {
-
         static void Main(string[] args)
         {
 
@@ -45,10 +36,15 @@ namespace FileManager
                     FileUploadOptions fileUploader = new FileUploadOptions();
                     fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj);
                     break;
+
                 case DirectoryChangeOptions d:
+                    DirectoryChangeOptions directoryChangeOptions = new DirectoryChangeOptions();
+
                     break;
 
-                case DirectoryDisplayOptions q:
+                case DisplayOptions q:
+                    var displayOpt = new DisplayOptions();
+                    displayOpt.Execute((DisplayOptions)obj);
                     break;
 
             }

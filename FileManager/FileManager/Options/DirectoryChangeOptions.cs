@@ -10,12 +10,13 @@ namespace FileManager
     [Verb("directory-change", HelpText = "Changing the directory of the upload destination.")]
     public class DirectoryChangeOptions : Options
     {
-
-        public void Execute()
+        public DirectoryChangeOptions()
         {
-            Console.WriteLine($"Executing Commit with message: {Message}");
         }
-
-
+        public void Execute(int directoryId, string targetLocation)
+        {
+            Console.WriteLine($"Directory Id: {directoryId}, Directory Changing to target location: {targetLocation}");
+            // TODO.
+        }
     }
 }

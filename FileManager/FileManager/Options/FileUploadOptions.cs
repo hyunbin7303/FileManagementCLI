@@ -16,6 +16,12 @@ namespace FileManager
         [Option('s', "source", Default = ".",HelpText = "The source directory for the files to process.")]
         public string Source { get; set; }
 
+        [Option('t', "Type", Default =".", HelpText = "Type of storage")]
+        public string Type { get; set; }
+
+        [Option('d', "destination", HelpText = "Destination to store the data.")]
+        public string Destination { get; set; }
+
 
         public int RunAddAndReturnExitCode(FileUploadOptions options)
         {
@@ -26,6 +32,16 @@ namespace FileManager
             }
             Console.WriteLine("adding files");
             // TODO : Adding data into the folder. 
+
+            switch(options.TargetLocation)
+            {
+                case "Google":
+                break;
+
+
+
+            }
+
             return 0;
         }
 
