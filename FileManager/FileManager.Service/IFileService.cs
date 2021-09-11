@@ -11,11 +11,11 @@ namespace FileManager
     public interface IFileService
     {
         IList<string> GetFiles();
-        Task<FileModel> GetFileById(int Id);
-        Task<FileModel> GetFileByFileName(string fileName);
+        Task<File> GetFileById(int Id);
+        Task<File> GetFileByFileName(string fileName);
 
         Task<bool> UploadFileToDestination(string fileId, string destination);
-        Task<IList<FileModel>> GetFilesByUserInfo(string userId);
+        Task<IList<File>> GetFilesByUserInfo(string userId);
         Task<bool> IsFileUnique(string fileName, CancellationToken cancellationToken);
 
         Task CreateFolderInDirectory(string targetDirectory);
