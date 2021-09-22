@@ -13,7 +13,6 @@ namespace FileManager
     {
         static void Main(string[] args)
         {
-
             var parser = new Parser(config => config.HelpWriter = Console.Out);
             //if (args.Length == 0)
             //{
@@ -22,6 +21,7 @@ namespace FileManager
             //}
             var types = LoadVerbs();
             Parser.Default.ParseArguments(args, types).WithParsed(Run).WithNotParsed(errors => Console.WriteLine("Error"));
+        
         }
         private static Type[] LoadVerbs()
         {
@@ -39,7 +39,6 @@ namespace FileManager
 
                 case DirectoryChangeOptions d:
                     DirectoryChangeOptions directoryChangeOptions = new DirectoryChangeOptions();
-
                     break;
 
                 case DisplayOptions q:

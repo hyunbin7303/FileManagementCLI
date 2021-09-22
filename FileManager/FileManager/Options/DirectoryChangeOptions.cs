@@ -16,7 +16,8 @@ namespace FileManager
         public void Execute(int directoryId, string targetLocation)
         {
             Console.WriteLine($"Directory Id: {directoryId}, Directory Changing to target location: {targetLocation}");
-            // TODO.
+            // TODO: Update the sql config table for changing directory.
+            // SQL Connection needs to come here. 
         }
     }
 }

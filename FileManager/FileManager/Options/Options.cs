@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace FileManager
 {
-    public class Options : IOption
+    public class Options
     {
         [Option("filename", Required = false, HelpText = "Input filename.")]
         public string filename { get; set; }

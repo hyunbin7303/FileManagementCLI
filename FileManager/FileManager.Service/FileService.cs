@@ -11,6 +11,7 @@ namespace FileManager.Service
 {
     public class FileService : IFileService
     {
+        //TODO : SQL Connection. 
         private readonly string _folderDirectory = "c://";
         public IList<string> GetFiles()
         {
