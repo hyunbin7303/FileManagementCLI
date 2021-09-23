@@ -13,6 +13,9 @@ namespace FileManager
     {
         static void Main(string[] args)
         {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appSettings.json", optional: false);
+            var config = new ConfigurationBuilder().AddJsonFile("appSettings.json").Build();
+
             var parser = new Parser(config => config.HelpWriter = Console.Out);
             //if (args.Length == 0)
             //{
@@ -35,6 +38,10 @@ namespace FileManager
                 case FileUploadOptions c:
                     FileUploadOptions fileUploader = new FileUploadOptions();
                     fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj);
+                    break;
+
+                case FileDownloadOptions f:
+                    FileDownloadOptions fileDownloader = new FileDownloadOptions();
                     break;
 
                 case DirectoryChangeOptions d:

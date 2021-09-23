@@ -10,5 +10,8 @@ namespace FileManager
     [Verb("file-download", HelpText = "File Download.")]
     public class FileDownloadOptions : Options
     {
+
+
+
     }
 }

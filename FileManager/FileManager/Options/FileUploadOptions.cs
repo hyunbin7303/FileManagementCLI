@@ -45,12 +45,15 @@ namespace FileManager
             return 0;
         }
 
-        private int FileUploadToGoogleDrive()
+        private int FileUploadToGoogleDrive(string path, string fileName)
         {
-            //https://developers.google.com/drive/api/v3/manage-uploads
+            // Upload file to the Google Drive.
             return 0;
         }
-
+        private int FileUploadToDropBox(string path, string fileName)
+        {
+            return 0;
+        }
         private int FileUploadToDB()
         {
             return 0;

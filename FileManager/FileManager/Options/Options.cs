@@ -1,11 +1,18 @@
 ﻿using CommandLine;
 using CommandLine.Text;
+using FileManager.Domain;
 using System.Collections.Generic;
 
 namespace FileManager
 {
     public class Options
     {
+        public User user { get; set; }
+
+        public Options()
+        {
+            //user.UserId = config
+        }
         [Option("filename", Required = false, HelpText = "Input filename.")]
         public string filename { get; set; }
 

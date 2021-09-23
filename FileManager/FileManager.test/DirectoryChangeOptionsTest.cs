@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace FileManager.test
 {
-    public class FileUploaderTest
+    public class DirectoryChangeOptionsTest
     {
         [Test]
         public async Task GetListsAsyncTest()
         {
-            var check = await HttpClientUtils.GetListsAsync<object>("https://dog-facts-api.herokuapp.com/api/v1/resources/dogs/all", null);
-            Assert.NotNull(check);
+            //var check = await HttpClientUtils.GetListsAsync<object>("https://dog-facts-api.herokuapp.com/api/v1/resources/dogs/all", null);
+            //Assert.NotNull(check);
         }
     }
 }
