@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using FileManager.Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -6,6 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration.EnvironmentVariables;
+using Serilog;
+using Microsoft.Extensions.Hosting;
 
 namespace FileManager
 {
@@ -13,8 +17,30 @@ namespace FileManager
     {
         static void Main(string[] args)
         {
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appSettings.json", optional: false);
-            var config = new ConfigurationBuilder().AddJsonFile("appSettings.json").Build();
+
+            var builder = new ConfigurationBuilder();
+            BuildConfig(builder);
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Build())
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            Log.Logger.Information("File Manager App starting.");
+
+            var host = Host.CreateDefaultBuilder()
+                .ConfigureServices((context, service) =>
+                {
+
+                });
+
+            //IConfigurationRoot configuration = builder.Build();
+            //var mySettingsConfig = new MySettingsConfig();
+            //configuration.GetSection("MySettings").Bind(mySettingsConfig);
+            //var check = configuration.GetValue("UserId", "dsf");
+
+
 
             var parser = new Parser(config => config.HelpWriter = Console.Out);
             //if (args.Length == 0)
@@ -26,6 +52,15 @@ namespace FileManager
             Parser.Default.ParseArguments(args, types).WithParsed(Run).WithNotParsed(errors => Console.WriteLine("Error"));
         
         }
+        static void BuildConfig(IConfigurationBuilder builder)
+        {
+            builder.SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
+               .AddJsonFile($"appSettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
+               .AddEnvironmentVariables();     
+        }
+
+
         private static Type[] LoadVerbs()
         {
             return Assembly.GetExecutingAssembly().GetTypes()
