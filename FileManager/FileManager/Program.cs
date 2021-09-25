@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Serilog;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace FileManager
 {
@@ -20,7 +21,6 @@ namespace FileManager
 
             var builder = new ConfigurationBuilder();
             BuildConfig(builder);
-
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(builder.Build())
                 .Enrich.FromLogContext()
@@ -28,19 +28,13 @@ namespace FileManager
                 .CreateLogger();
 
             Log.Logger.Information("File Manager App starting.");
-
             var host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, service) =>
                 {
 
-                });
-
-            //IConfigurationRoot configuration = builder.Build();
-            //var mySettingsConfig = new MySettingsConfig();
-            //configuration.GetSection("MySettings").Bind(mySettingsConfig);
-            //var check = configuration.GetValue("UserId", "dsf");
-
-
+                })
+                .UseSerilog()
+                .Build();
 
             var parser = new Parser(config => config.HelpWriter = Console.Out);
             //if (args.Length == 0)
@@ -55,7 +49,7 @@ namespace FileManager
         static void BuildConfig(IConfigurationBuilder builder)
         {
             builder.SetBasePath(Directory.GetCurrentDirectory())
-               .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
+               .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                .AddJsonFile($"appSettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
                .AddEnvironmentVariables();     
         }
@@ -84,13 +78,27 @@ namespace FileManager
                     break;
 
                 case DisplayOptions q:
-                    var displayOpt = new DisplayOptions();
+                     var displayOpt = new DisplayOptions();
                     displayOpt.Execute((DisplayOptions)obj);
                     break;
 
             }
         }
 
+        public class TestingService
+        {
+            private readonly ILogger<TestingService> _log;
+            public TestingService(ILogger<TestingService> log, IConfiguration config)
+            {
+                _log = log;
+            }
+            public void Run()
+            {
+                for(int i = 0; i< 10; i++)
+                {
 
+                }
+            }
+        }
     }
 }
