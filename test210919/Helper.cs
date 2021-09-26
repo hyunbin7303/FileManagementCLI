@@ -10,7 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Google.Apis.Download;
+using Google.Apis.Auth;
 
 namespace GoogleDirveApi
 {
@@ -18,7 +19,7 @@ namespace GoogleDirveApi
     {
         public static UserCredential credential()
         {   //You can change the Scope of drive service.
-            string[] Scopes = { DriveService.Scope.Drive };
+            string[] Scopes = { DriveService.Scope.Drive};
             UserCredential credential;
         
             using (var stream =
@@ -40,14 +41,14 @@ namespace GoogleDirveApi
             
         }
 
-        public static void upload(string uploadfilename, Stream streamtest, ref DriveService service)
+        public static void upload(string uploadfilename, Stream streamtest, string parent, ref DriveService service)
         {
             string fileMime ="[*/*]]";
             var driveFile = new Google.Apis.Drive.v3.Data.File();
             driveFile.Name = uploadfilename;
             // driveFile.Description = fileDescription;
             driveFile.MimeType = fileMime;
-            // driveFile.Parents = new string[] { "./" };
+            driveFile.Parents = new string[] { parent };
             
             var request = service.Files.Create(driveFile, streamtest, fileMime);
             request.Fields = "id";
@@ -63,24 +64,142 @@ namespace GoogleDirveApi
             // Define parameters of request.
             FilesResource.ListRequest listRequest = service.Files.List();
             listRequest.PageSize = pagesize;
-            listRequest.Fields = "nextPageToken, files(id, name)";
+            listRequest.Fields = "nextPageToken, files(id, name, mimeType)";
 
             // List files.
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-                .Files;
+            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute().Files;
             Console.WriteLine("Files:");
             if (files != null && files.Count > 0)
             {
                 foreach (var file in files)
                 {
-                    Console.WriteLine("{0} ({1})", file.Name, file.Id);
+                    Console.WriteLine("{0} ({1}) ({2})", file.Name, file.Id, file.MimeType);
                 }
             }
             else
             {
                 Console.WriteLine("No files found.");
             }
-            Console.Read();
+        }
+
+        public static string createfolder(string foldername, string parent, ref DriveService service)
+        {
+            var driveFolder = new Google.Apis.Drive.v3.Data.File();
+            driveFolder.Name = foldername;
+            driveFolder.MimeType = "application/vnd.google-apps.folder";
+            driveFolder.Parents = new string[] { parent };
+            var command = service.Files.Create(driveFolder);
+            var file = command.Execute();
+            return file.Id;          
+        }
+
+        public static void download(string FileId, ref DriveService service)
+        {
+            var fileId= FileId;
+            var request = service.Files.Get(fileId);
+            string Filename= request.Execute().Name;
+            string MimeType= request.Execute().MimeType;
+            Console.WriteLine("{0}",Filename);
+            Console.WriteLine("{0}",MimeType);
+            var stream = new System.IO.MemoryStream();
+            string doc_mimetype="text/plain" ;
+
+            if(!MimeType.Contains("google"))
+            {
+                // Add a handler which will be notified on progress changes.
+                // It will notify on each chunk download and when the
+                // download is completed or failed.
+                request.MediaDownloader.ProgressChanged +=
+                    (IDownloadProgress progress) =>
+                {
+                    switch (progress.Status)
+                    {
+                        case DownloadStatus.Downloading:
+                            {
+                                Console.WriteLine(progress.BytesDownloaded);
+                                break;
+                            }
+                        case DownloadStatus.Completed:
+                            {
+                                Console.WriteLine("Download complete.");
+                                FileStream file = new FileStream("C:/Users/choifamm/Desktop/종윤/C#/test210919//"+Filename, FileMode.Create, FileAccess.Write);
+                                stream.WriteTo(file);
+                                break;
+                            }
+                        case DownloadStatus.Failed:
+                            {
+                                Console.WriteLine("Download failed.");
+                                break;
+                            }
+                    }
+                };
+                request.Download(stream);
+            }
+
+            else
+            {   
+                
+                switch (MimeType)
+                {
+                    case ("application/vnd.google-apps.document"):
+                        {
+                            doc_mimetype="text/plain";
+                            if(!Filename.Contains(".txt"))
+                            {
+                                Filename=Filename+".txt";
+                            }
+                            break;
+                        }
+                    case ("application/vnd.google-apps.spreadsheet"):
+                        {
+                            doc_mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                            if(!Filename.Contains(".xlsx"))
+                            {
+                                Filename=Filename+".xlsx";
+                            }                            
+                            break;
+                        }
+                    case ("application/vnd.google-apps.presentation"):
+                        {
+                            doc_mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation";
+                            if(!Filename.Contains(".pptx"))
+                            {
+                                Filename=Filename+".pptx";
+                            }                            
+                            break;
+                        }                    
+                }
+                FilesResource.ExportRequest request_1 = service.Files.Export(fileId,doc_mimetype);
+
+                // Add a handler which will be notified on progress changes.
+                // It will notify on each chunk download and when the
+                // download is completed or failed.
+                request_1.MediaDownloader.ProgressChanged +=
+                    (IDownloadProgress progress) =>
+                {
+                    switch (progress.Status)
+                    {
+                        case DownloadStatus.Downloading:
+                            {
+                                Console.WriteLine(progress.BytesDownloaded);
+                                break;
+                            }
+                        case DownloadStatus.Completed:
+                            {
+                                Console.WriteLine("Download complete.");
+                                FileStream file = new FileStream("C:/Users/choifamm/Desktop/종윤/C#/test210919/"+Filename, FileMode.Create, FileAccess.Write);
+                                stream.WriteTo(file);
+                                break;
+                            }
+                        case DownloadStatus.Failed:
+                            {
+                                Console.WriteLine("Download failed.");
+                                break;
+                            }
+                    }
+                };
+                request_1.Download(stream);
+            }
         }
 
 

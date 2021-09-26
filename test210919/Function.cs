@@ -22,16 +22,32 @@ namespace GoogleDirveApi
             return credential;
         }
 
-        public static void Upload(string uploadfilename, Stream streamtest, ref DriveService service)
+        public static void Upload(string uploadfilename, Stream streamtest, string parent, ref DriveService service)
         {
-            Helper.upload(uploadfilename, streamtest, ref service);
+            Helper.upload(uploadfilename, streamtest, parent, ref service);
         }
         
         public static void FileList(int pagesize, ref DriveService service)
         {
             Helper.filelist(pagesize, ref service);
         }
+
+        public static string CreateFolder(string foldername, string parent, ref DriveService service)
+        {
+            string folderid= Helper.createfolder(foldername, parent ,ref service);
+            return folderid;
+        }
+    
+
+        public static void Download(string fileId, ref DriveService service)
+        {
+            Helper.download(fileId, ref service);
+
+        }    
+    
     }
+
+
 
 
 }
