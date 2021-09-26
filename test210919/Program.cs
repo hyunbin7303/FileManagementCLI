@@ -31,38 +31,26 @@ namespace GoogleDirveApi
                 ApplicationName = ApplicationName,
             });
 
-
-            /// File upload
-            Stream streamtest = new FileStream("test2019.txt", FileMode.Create);
-            string uploadfilename="test2019_2.txt";
-            Function.Upload(uploadfilename, streamtest, ref service);
+            
+            // /// File upload
+            // Stream streamtest = new FileStream("test2019.txt", FileMode.Create);
+            // string uploadfilename="test2019_2.txt";
+            // string parent_file="1DNyRBKHyI8aIjjdZvwZrB4c6LU6xzL0p";
+            // Function.Upload(uploadfilename, streamtest, parent_file, ref service);
 
             // List files.
             int pagesize=10;
             Function.FileList(pagesize, ref service);
 
 
-            // // Define parameters of request.
-            // FilesResource.ListRequest listRequest = service.Files.List();
-            // listRequest.PageSize = 10;
-            // listRequest.Fields = "nextPageToken, files(id, name)";
+            // // create folder
+            // string foldername= "kevin comes korea";
+            // string parent_folder= "1DNyRBKHyI8aIjjdZvwZrB4c6LU6xzL0p";
+            // Console.WriteLine(Function.CreateFolder(foldername, parent_folder, ref service));
 
-            // // List files.
-            // IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-            //     .Files;
-            // Console.WriteLine("Files:");
-            // if (files != null && files.Count > 0)
-            // {
-            //     foreach (var file in files)
-            //     {
-            //         Console.WriteLine("{0} ({1})", file.Name, file.Id);
-            //     }
-            // }
-            // else
-            // {
-            //     Console.WriteLine("No files found.");
-            // }
-            // Console.Read();
+
+            string fileId = "1TWKeZwahlSoj_btFhAOj7hq1G2TDOCxoEH9U5PZZ-Kk";
+            Function.Download(fileId, ref service);
 
             //
   
