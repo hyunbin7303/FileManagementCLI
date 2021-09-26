@@ -37,11 +37,13 @@ namespace FileManager
                 .Build();
 
             var parser = new Parser(config => config.HelpWriter = Console.Out);
-            //if (args.Length == 0)
-            //{
-            //    parser.ParseArguments<Options>(new[] { "--help" });
-            //    return;
-            //}
+            
+            
+            if (args.Length == 0)
+            {
+                parser.ParseArguments<Options>(new[] { "--help" });
+                return;
+            }
             var types = LoadVerbs();
             Parser.Default.ParseArguments(args, types).WithParsed(Run).WithNotParsed(errors => Console.WriteLine("Error"));
         

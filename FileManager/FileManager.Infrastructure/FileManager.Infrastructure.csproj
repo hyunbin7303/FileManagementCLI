@@ -5,13 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="3rd Parties\GoogleAPI\" />
-    <Folder Include="3rd Parties\DropboxAPI\" />
-    <Folder Include="3rd Parties\" />
     <Folder Include="DbAccess\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dropbox.Api" Version="6.15.0" />
     <PackageReference Include="Flurl" Version="3.0.2" />
     <PackageReference Include="Flurl.Http" Version="3.2.0" />
   </ItemGroup>
