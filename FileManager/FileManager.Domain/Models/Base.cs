@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileManager.Domain
+namespace FileManager.Domain.Models
 {
     public class Base
     {

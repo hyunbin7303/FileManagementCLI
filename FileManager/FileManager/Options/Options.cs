@@ -2,6 +2,7 @@
 using CommandLine.Text;
 using FileManager.Domain;
 using System.Collections.Generic;
+using FileManager.Domain.Models;
 
 namespace FileManager
 {
