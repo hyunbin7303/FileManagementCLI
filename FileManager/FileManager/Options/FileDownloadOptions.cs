@@ -33,9 +33,9 @@ namespace FileManager
 
             return 0;
         }
-        public void GoogleDocDownloading(string fileName)
+        public void GoogleDocDownloading(string fileId)
         {
-            GoogleDocClient client = new GoogleDocClient();
+            GoogleDocClient.download(fileId);
 
         }
     }
