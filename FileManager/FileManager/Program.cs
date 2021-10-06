@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Serilog;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using FileManager.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace FileManager
 {
@@ -19,23 +21,14 @@ namespace FileManager
         static void Main(string[] args)
         {
 
-            var builder = new ConfigurationBuilder();
-            BuildConfig(builder);
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(builder.Build())
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .CreateLogger();
+            var host = CreateHostBuilder(args).Build();
 
-            Log.Logger.Information("File Manager App starting.");
-            var host = Host.CreateDefaultBuilder()
-                .ConfigureServices((context, service) =>
-                {
-
-                })
-                .UseSerilog()
-                .Build();
-
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<FileDbContext>();
+                context.Database.EnsureCreated();
+            }
             var parser = new Parser(config => config.HelpWriter = Console.Out);
             
             
@@ -45,17 +38,20 @@ namespace FileManager
                 return;
             }
             var types = LoadVerbs();
-            Parser.Default.ParseArguments(args, types).WithParsed(Run).WithNotParsed(errors => Console.WriteLine("Error"));
+            Parser.Default
+                .ParseArguments(args, types)
+                .WithParsed(Run)
+                .WithNotParsed(errors => Console.WriteLine("Error"));
         
         }
-        static void BuildConfig(IConfigurationBuilder builder)
-        {
-            builder.SetBasePath(Directory.GetCurrentDirectory())
-               .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-               .AddJsonFile($"appSettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
-               .AddEnvironmentVariables();     
-        }
 
+        static IConfigurationBuilder BuildConfig(IConfigurationBuilder builder)
+        {
+            return builder.SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+              .AddJsonFile($"appSettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
+              .AddEnvironmentVariables();     
+        }
 
         private static Type[] LoadVerbs()
         {
@@ -101,6 +97,35 @@ namespace FileManager
 
                 }
             }
+        }
+
+
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder()
+                .ConfigureHostConfiguration((builder) =>
+                {
+                    BuildConfig(builder);
+                })
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+
+                })
+                .ConfigureServices((context, service) =>
+                {
+                    service.AddDataBase(context.Configuration);
+                })
+                .ConfigureLogging((context, builder) =>
+                {
+                    Log.Logger = new LoggerConfiguration()
+                                            .ReadFrom.Configuration(context.Configuration)
+                                            .Enrich.FromLogContext()
+                                            .WriteTo.Console()
+                                            .CreateLogger();
+                    Log.Logger.Information("File Manager App starting.");
+                    //builder.AddSerilog();
+                })
+                .UseSerilog();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FileManager.Domain
+namespace FileManager.Domain.Models
 {
     public class File : Base
     {
