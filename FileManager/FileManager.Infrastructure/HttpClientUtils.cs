@@ -19,21 +19,11 @@ namespace FileManager.Infrastructure
             //https://gist.github.com/brunneus/0971b9960c02c0658a3bdac47f470f4f
 
         }
-
         public async static Task<IList<T>> GetListsAsync<T>(string url, Dictionary<string, string> query, object headers = null)
         {
             var list = await url.GetJsonListAsync();
             return (IList<T>)list;
         }
-
-        //public async Task<T> GetAsync<T>(string url, Dictionary<string, string> query, object headers = null)
-        //{
-        //    var todos = await url
-        //          .AppendPathSegment("todos")
-        //          .SetQueryParams(new { userId = 1 })
-        //          .GetJsonAsync<IEnumerable<T>>();
-        //    return poco; 
-        //}
 
 
         private bool IsTransientError(FlurlHttpException exception)

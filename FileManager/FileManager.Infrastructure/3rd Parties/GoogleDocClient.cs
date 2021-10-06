@@ -8,13 +8,9 @@ using Google.Apis.Drive.v3;
 using Google.Apis.Drive.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using Google.Apis.Download;
 
 namespace FileManager.Infrastructure._3rd_Parties
 {
@@ -22,7 +18,7 @@ namespace FileManager.Infrastructure._3rd_Parties
     {
         public static DriveService Getservice()
         {
-            static string ApplicationName = "Drive API .NET";
+            string ApplicationName = "Drive API .NET";
             //You can change the Scope of drive service.
             string[] Scopes = { DriveService.Scope.Drive};
             UserCredential credential;
@@ -46,8 +42,7 @@ namespace FileManager.Infrastructure._3rd_Parties
                 HttpClientInitializer = credential,
                 ApplicationName = ApplicationName,
             });    
-
-            retrun service;        
+            return service;        
         }
         public static void upload(string uploadfilename, Stream streamtest, string parent)
         {

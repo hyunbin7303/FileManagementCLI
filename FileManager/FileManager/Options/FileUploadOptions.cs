@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using FileManager.Infrastructure._3rd_Parties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,8 +48,9 @@ namespace FileManager
 
         private int FileUploadToGoogleDrive(string path, string fileName)
         {
-            // Upload file to the Google Drive.
 
+            // Upload file to the Google Drive.
+            GoogleDocClient.createfolder("", "");
 
 
             return 0;
