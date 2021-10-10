@@ -33,6 +33,34 @@ namespace FileManager
 
             return 0;
         }
+
+        private void SelectOptions()
+        {
+            Console.WriteLine("Display ----------------");
+            Console.WriteLine("1. Folder Destination display.");
+            Console.WriteLine("2. Application setup display.");
+            Console.WriteLine("3. More info.");
+            var userInput = Console.ReadLine();
+            if (userInput == "1")
+            {
+                Console.WriteLine("Displaying Cloud/Folder information.");
+                //FolderDestinationDisplay("Local");
+            }
+            else if (userInput == "2")
+            {
+
+            }
+            else if (userInput == "3")
+            {
+
+            }
+            else
+            {
+                return;
+            }
+
+        }
+
         public void GoogleDocDownloading(string fileId)
         {
             GoogleDocClient.download(fileId);

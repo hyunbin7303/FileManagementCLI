@@ -24,6 +24,12 @@ namespace FileManager
         public string Destination { get; set; }
 
 
+        public FileUploadOptions(string defaultFolder)
+        {
+
+        }
+
+
         public int RunAddAndReturnExitCode(FileUploadOptions options)
         {
             if (options.Verbose && !string.IsNullOrEmpty(options.Source))
