@@ -16,7 +16,7 @@ namespace FileManager
         {
 
             var host = ConfigHelper.CreateHostBuilder(args).Build();
-            var svc = ActivatorUtilities.CreateInstance<TestingService>(host.Services);
+            var svc = ActivatorUtilities.CreateInstance<FileConfigService>(host.Services);
             svc.Run();
             using (var scope = host.Services.CreateScope())
             {

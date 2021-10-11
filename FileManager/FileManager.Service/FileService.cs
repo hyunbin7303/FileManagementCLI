@@ -18,16 +18,16 @@ namespace FileManager.Service
             var files = Directory.GetFiles(_folderDirectory).ToList();
             return files;
         }
-        public Task<Domain.File> GetFileByFileName(string fileName)
+        public Task<File> GetFileByFileName(string fileName)
         {
             var get = GetFiles();
             return null;
         }
-        public Task<Domain.File> GetFileById(int Id)
+        public Task<File> GetFileById(int Id)
         {
             throw new NotImplementedException();
         }
-        public Task<IList<Domain.File>> GetFilesByUserInfo(string userId)
+        public Task<IList<File>> GetFilesByUserInfo(string userId)
         {
             throw new NotImplementedException();
         }

@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace FileManager
 {
-    class FileConfigService
-    {
-    }
-    public interface ITestingService
+    public interface IFileConfigService
     {
         public void Run();
+        public void DatabaseSetup();
     }
-    public class TestingService : ITestingService
-    { 
-        private readonly ILogger<TestingService> _log;
+    public class FileConfigService : IFileConfigService
+    {
+        private readonly ILogger<FileConfigService> _log;
         private readonly IConfiguration _config;
-        public TestingService(ILogger<TestingService> log, IConfiguration config)
+        public FileConfigService(ILogger<FileConfigService> log, IConfiguration config)
         {
             _log = log;
             _config = config;
         }
+
+
         public void Run()
         {
             for (int i = 0; i < _config.GetValue<int>("LoopTimes"); i++)
@@ -32,4 +32,5 @@ namespace FileManager
             }
         }
     }
+
 }

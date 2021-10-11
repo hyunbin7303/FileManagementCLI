@@ -1,4 +1,5 @@
 ﻿using FileManager.Domain;
+using FileManager.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,9 @@ namespace FileManager
         IList<string> GetFiles();
         Task<File> GetFileById(int Id);
         Task<File> GetFileByFileName(string fileName);
-
         Task<bool> UploadFileToDestination(string fileId, string destination);
         Task<IList<File>> GetFilesByUserInfo(string userId);
         Task<bool> IsFileUnique(string fileName, CancellationToken cancellationToken);
-
         Task CreateFolderInDirectory(string targetDirectory);
     }
 }

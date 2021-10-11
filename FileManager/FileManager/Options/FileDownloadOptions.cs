@@ -6,20 +6,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FileManager.Domain.Models;
+using Microsoft.Extensions.Logging;
 
 namespace FileManager
 {
     [Verb("file-download", HelpText = "File Download.")]
     public class FileDownloadOptions : Options
     {
-        
+        public List<File> fileList = null;
+
         [Option('s', "source", Default = ".", HelpText = "The source directory for the files to process.")]
         public string Source { get; set; }
 
         [Option('t', "Type", Default = ".", HelpText = "Type of storage")]
         public string Type { get; set; }
 
-        [Option('d', "destination", HelpText = "Destination to store the data.")]
+        [Option('f', "FileName", Default = ".", HelpText = "File Name")]
+        public string FileName { get; set; }
+
+        [Option('d', "destination", HelpText = "Destination to download the data.")]
         public string Destination { get; set; }
 
         public int RunAddAndReturnExitCode(FileDownloadOptions options)
@@ -29,22 +35,30 @@ namespace FileManager
                 Console.WriteLine($"Verbose : {options.Verbose}");
                 Console.WriteLine($"Source of Files: {options.Source}");
             }
-            Log.Logger.Information("File Dolwnloading");
-
+            if(!string.IsNullOrEmpty(options.Destination))
+            {
+                Log.Logger.Information("Destionation.");
+            }
+            if (!string.IsNullOrEmpty(options.FileName))
+            {
+                Log.Logger.Information("FileName.");
+            }
+            Log.Logger.Information("File Dolwnload Options.");
+            SelectOptions();
             return 0;
         }
 
         private void SelectOptions()
         {
             Console.WriteLine("Display ----------------");
-            Console.WriteLine("1. Folder Destination display.");
-            Console.WriteLine("2. Application setup display.");
+            Console.WriteLine("1. Downloading Google FIles.");
+            Console.WriteLine("2. Downloading file from the Dropbox.");
             Console.WriteLine("3. More info.");
             var userInput = Console.ReadLine();
             if (userInput == "1")
             {
-                Console.WriteLine("Displaying Cloud/Folder information.");
-                //FolderDestinationDisplay("Local");
+                Console.WriteLine("Downloading Google Files.");
+                GoogleDocDownloading(FileName);
             }
             else if (userInput == "2")
             {
@@ -58,13 +72,11 @@ namespace FileManager
             {
                 return;
             }
-
         }
-
         public void GoogleDocDownloading(string fileId)
         {
-            GoogleDocClient.download(fileId);
-
+            AzureStorageClient.download(fileId);
         }
+
     }
 }

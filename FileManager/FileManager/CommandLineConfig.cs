@@ -40,11 +40,12 @@ namespace FileManager
 
                 case FileDownloadOptions f:
                     FileDownloadOptions fileDownloader = new FileDownloadOptions();
-                    //fileDownloader.Select();
+                    fileDownloader.RunAddAndReturnExitCode((FileDownloadOptions)obj);
                     break;
 
                 case DirectoryChangeOptions d:
                     DirectoryChangeOptions directoryChangeOptions = new DirectoryChangeOptions();
+                    //directoryChangeOptions.
                     break;
 
                 case DisplayOptions q:

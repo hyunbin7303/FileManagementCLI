@@ -40,15 +40,6 @@ namespace FileManager
             Console.WriteLine("adding files");
             // TODO : Adding data into the folder. 
 
-            //switch(options.TargetLocation)
-            //{
-            //    case "Google":
-            //    break;
-
-
-
-            //}
-
             return 0;
         }
 
@@ -56,7 +47,7 @@ namespace FileManager
         {
 
             // Upload file to the Google Drive.
-            GoogleDocClient.createfolder("", "");
+            AzureStorageClient.createfolder("", "");
 
 
             return 0;

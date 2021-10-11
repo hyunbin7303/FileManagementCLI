@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FileManager.Domain.Models;
 
 namespace FileManager
 {
@@ -62,16 +63,17 @@ namespace FileManager
                     DisplayLocalFolder();
                     break;
                 case "Google":
-                    DisplayGoogleDriveFolder();
+                    GetGoogleDriveFiles();
                     break;
                 case "Dropbox":
                     DisplayDropbox();
                     break;
             }
         }
-        private void DisplayGoogleDriveFolder()
+        private List<File> GetGoogleDriveFiles()
         {
-            throw new NotImplementedException();
+            List<File> fileList = new List<File>();
+            return fileList;
         }
 
         private void DisplayDropbox()

@@ -8,7 +8,6 @@ namespace FileManager.Domain.Models
         public FileStatus Status { get; set; }
         public FileType Type { get; set; }
         public int OwnerId { get; set; }
-
     }
     public enum FileStatus
     {

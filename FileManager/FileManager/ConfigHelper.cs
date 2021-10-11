@@ -30,7 +30,7 @@ namespace FileManager
                 {
                     service.AddDataBase(context.Configuration);
                     //setupDefaultFolder = context.Configuration.GetSection("DefaultFolder").Value;
-                    service.AddTransient<ITestingService, TestingService>();
+                    service.AddTransient<IFileConfigService, FileConfigService>();
                 })
                 .ConfigureLogging((context, builder) =>
                 {

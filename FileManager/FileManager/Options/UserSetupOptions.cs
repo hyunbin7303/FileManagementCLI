@@ -22,9 +22,6 @@ namespace FileManager
             DisplayHelp();
             return 0;
         }
-        private void UserSetup()
-        {
-        }
         private void DisplayHelp()
         {
             Console.WriteLine("Display ----------------");
@@ -35,6 +32,14 @@ namespace FileManager
             if (userInput == "1")
             {
                 Console.WriteLine("Displaying Cloud/Folder information.");
+            }
+            else if(userInput == "2")
+            {
+
+            }
+            else
+            {
+
             }
 
         }

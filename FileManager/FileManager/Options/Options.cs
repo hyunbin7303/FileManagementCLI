@@ -9,11 +9,7 @@ namespace FileManager
     public class Options
     {
         public User user { get; set; }
-
-        public Options()
-        {
-            //user.UserId = config
-        }
+        public Options(){}
         [Option("filename", Required = false, HelpText = "Input filename.")]
         public string filename { get; set; }
 
@@ -25,9 +21,5 @@ namespace FileManager
 
         [Option('v', "verbose", Default = false,HelpText = "Prints all messages to standard output.")]
         public bool Verbose { get; set; }
-        ////[Option('m', "max", Required = false, Default = 5000, HelpText = "The maximum number : ")]
-        ////public int MaxRandomInt { get; set; }
-        ////[Option(shortName: 'c', longName: "confidence", Required = false, HelpText = "Minimum confidence.", Default = 0.9f)]
-        ////public float Confidence { get; set; }
     }
 }
