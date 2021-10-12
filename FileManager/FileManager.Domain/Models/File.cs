@@ -1,15 +1,22 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace FileManager.Domain.Models
 {
     public class File : Base
     {
+        [Required]
         public bool IsActive { get; set; }
+        [Required]
         public FileStatus Status { get; set; }
+        [Required]
         public FileType Type { get; set; }
+        [Required]
+        public SaveEnvironment Remote { get; set; }
+
         public int OwnerId { get; set; }
-    }
-    public enum FileStatus
-    {
         Added,
         Modifed,
         Deleted
