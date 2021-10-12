@@ -7,24 +7,31 @@ using System.Linq;
 using System.Reflection;
 
 using FileManager.Infrastructure;
+using Microsoft.Extensions.Configuration;
 
 namespace FileManager
 {
+    public static class MyAppData
+    {
+        public static IConfiguration Configuration;
+    }
     class Program
     {
         static void Main(string[] args)
         {
 
             var host = ConfigHelper.CreateHostBuilder(args).Build();
-            var svc = ActivatorUtilities.CreateInstance<FileConfigService>(host.Services);
-            svc.Run();
+         //   var svc = ActivatorUtilities.CreateInstance<FileConfigService>(host.Services); This is the way of using service.
+         //   svc.Run();
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<FileDbContext>();
                 context.Database.EnsureCreated();
             }
-            CommandLineConfig.CliConfig(args);
+            
+            CommandLineConfig commandLineConfig = new CommandLineConfig(MyAppData.Configuration);
+            commandLineConfig.CliConfig(args);
         }
     }
 }

@@ -75,7 +75,11 @@ namespace FileManager
         }
         public void GoogleDocDownloading(string fileId)
         {
-            AzureStorageClient.download(fileId);
+
+        }
+        private void DownloadAzureInfo(string containerName)
+        {
+            AzureBlobRepository azureBlobRepository = new AzureBlobRepository("connection string should be same..", containerName);
         }
 
     }

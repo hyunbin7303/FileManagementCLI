@@ -23,13 +23,8 @@ namespace FileManager
         [Option('d', "destination", HelpText = "Destination to store the data.")]
         public string Destination { get; set; }
 
-
-        public FileUploadOptions(string defaultFolder)
-        {
-
-        }
-
-
+        public string DefaultFolder { get; set; }
+        public string AzureConnString { get; set; }
         public int RunAddAndReturnExitCode(FileUploadOptions options)
         {
             if (options.Verbose && !string.IsNullOrEmpty(options.Source))
@@ -38,25 +33,45 @@ namespace FileManager
                 Console.WriteLine($"Source of Files: {options.Source}");
             }
             Console.WriteLine("adding files");
-            // TODO : Adding data into the folder. 
-
+            SelectOptions();
             return 0;
         }
+        private void SelectOptions()
+        {
+            var userInput = Console.ReadLine();
+            if (userInput == "1")
+            {
+                Console.WriteLine("Downloading Google Files.");
+                //GoogleDocDownloading(FileName);
+            }
+            else if (userInput == "2")
+            {
+                var check = FileUploadToAzure("", "", "");
+            }
+            else if (userInput == "3")
+            {
 
+            }
+            else
+            {
+                return;
+            }
+        }
         private int FileUploadToGoogleDrive(string path, string fileName)
         {
 
             // Upload file to the Google Drive.
-            AzureStorageClient.createfolder("", "");
 
 
             return 0;
         }
-        private int FileUploadToDropBox(string path, string fileName)
+        private async Task<int> FileUploadToAzure(string container, string path, string fileName)
         {
+            AzureBlobRepository azureBlobRepository = new AzureBlobRepository(AzureConnString, container);
+            await azureBlobRepository.Upload(path, fileName, "");
             return 0;
         }
-        private int FileUploadToDB()
+        private int FileInfoUpdateToDB()
         {
             return 0;
         }

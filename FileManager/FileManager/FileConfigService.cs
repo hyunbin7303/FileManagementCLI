@@ -23,6 +23,10 @@ namespace FileManager
             _config = config;
         }
 
+        public void DatabaseSetup()
+        {
+            throw new NotImplementedException();
+        }
 
         public void Run()
         {

@@ -29,8 +29,9 @@ namespace FileManager
                 .ConfigureServices((context, service) =>
                 {
                     service.AddDataBase(context.Configuration);
-                    //setupDefaultFolder = context.Configuration.GetSection("DefaultFolder").Value;
+                    service.AddSingleton(context.Configuration);
                     service.AddTransient<IFileConfigService, FileConfigService>();
+                    MyAppData.Configuration = context.Configuration;
                 })
                 .ConfigureLogging((context, builder) =>
                 {

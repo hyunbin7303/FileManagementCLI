@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure;
+using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,29 @@ namespace FileManager.Infrastructure._3rd_Parties
         {
             BlobClient blobClient = _blobClient.GetBlobClient(pathAndFileName);
             return await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
+        }
+
+        public async Task<List<string>> ListBlobsFlatListing(int? segmentSize)
+        {
+            try
+            {
+                List<string> blobsStrlist = new List<string>();
+                var resultSegment = _blobClient.GetBlobsAsync().AsPages(default, segmentSize);
+                await foreach (Page<BlobItem> blobPage in resultSegment)
+                {
+                    foreach (BlobItem blobItem in blobPage.Values)
+                    {
+                        blobsStrlist.Add(blobItem.Name);
+                    }
+                }
+                return blobsStrlist;
+            }
+            catch (RequestFailedException e)
+            {
+                Console.WriteLine(e.Message);
+                Console.ReadLine();
+                throw;
+            }
         }
     }
 }

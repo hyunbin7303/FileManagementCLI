@@ -2,7 +2,7 @@
   "profiles": {
     "FileManager": {
       "commandName": "Project",
-      "commandLineArgs": "file-download -f something"
+      "commandLineArgs": "file-upload"
     }
   }
 }

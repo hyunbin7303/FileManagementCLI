@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace FileManager.Domain.Models
 {
     public class File : Base

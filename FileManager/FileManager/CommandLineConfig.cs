@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,12 @@ namespace FileManager
 {
     public class CommandLineConfig
     {
-        public static void CliConfig(string[] args)
+        private readonly IConfiguration _config;
+        public CommandLineConfig(IConfiguration config)
+        {
+            _config = config;
+        }
+        public void CliConfig(string[] args)
         {
             var parser = new Parser(config => config.HelpWriter = Console.Out);
             if (args.Length == 0)
@@ -24,17 +30,14 @@ namespace FileManager
                 .WithParsed(Run)
                 .WithNotParsed(errors => Console.WriteLine("Error"));
         }
-        private static Type[] LoadVerbs()
-        {
-            return Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => t.GetCustomAttribute<VerbAttribute>() != null).ToArray();
-        }
-        private static void Run(object obj)
+        private void Run(object obj)
         {
             switch (obj)
             {
                 case FileUploadOptions c:
-                    FileUploadOptions fileUploader = new FileUploadOptions("");
+                    FileUploadOptions fileUploader = new FileUploadOptions();
+                    //fileUploader.AzureConnString = _config.GetValue<string>("MySettings:AzureStorageKey");
+                    //fileUploader.DefaultFolder = _config.GetValue<string>("DefaultFolder");
                     fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj);
                     break;
 
@@ -54,6 +57,12 @@ namespace FileManager
                     break;
             }
         }
+        private static Type[] LoadVerbs()
+        {
+            return Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => t.GetCustomAttribute<VerbAttribute>() != null).ToArray();
+        }
+
 
     }
 }

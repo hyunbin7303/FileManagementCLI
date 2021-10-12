@@ -1,5 +1,4 @@
-﻿using FileManager.Domain;
-using FileManager.Domain.Models;
+﻿using FileManager.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
