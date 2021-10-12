@@ -17,6 +17,16 @@ namespace FileManager.Domain.Models
         public SaveEnvironment Remote { get; set; }
 
         public int OwnerId { get; set; }
+        [ForeignKey("OwnerId")]
+        public User User { get; set; }
+
+
+
+        public List<FileFolder> FileFolders { get; set; }
+
+    }
+    public enum FileStatus
+    {
         Added,
         Modifed,
         Deleted
