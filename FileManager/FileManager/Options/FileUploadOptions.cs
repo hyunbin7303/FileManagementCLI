@@ -25,6 +25,9 @@ namespace FileManager
 
         public string DefaultFolder { get; set; }
         public string AzureConnString { get; set; }
+        public string AzureContainerName { get; set; }
+        public string AzureUploadFilePath { get; set; }
+
         public int RunAddAndReturnExitCode(FileUploadOptions options)
         {
             if (options.Verbose && !string.IsNullOrEmpty(options.Source))
@@ -32,12 +35,14 @@ namespace FileManager
                 Console.WriteLine($"Verbose : {options.Verbose}");
                 Console.WriteLine($"Source of Files: {options.Source}");
             }
-            Console.WriteLine("adding files");
             SelectOptions();
             return 0;
         }
         private void SelectOptions()
         {
+            Console.WriteLine("Uploader Option Display.");
+            Console.WriteLine("1.Google Drive.");
+            Console.WriteLine("2.Azure Storage.");
             var userInput = Console.ReadLine();
             if (userInput == "1")
             {
@@ -46,12 +51,11 @@ namespace FileManager
             }
             else if (userInput == "2")
             {
-                var check = FileUploadToAzure("", "", "");
+                Console.WriteLine("Type file name.");
+                var fileNameInput = Console.ReadLine();
+                var check = FileUploadToAzure(AzureUploadFilePath, fileNameInput);
             }
-            else if (userInput == "3")
-            {
 
-            }
             else
             {
                 return;
@@ -65,10 +69,13 @@ namespace FileManager
 
             return 0;
         }
-        private async Task<int> FileUploadToAzure(string container, string path, string fileName)
+        private async Task<int> FileUploadToAzure(string path, string fileName)
         {
-            AzureBlobRepository azureBlobRepository = new AzureBlobRepository(AzureConnString, container);
+            AzureBlobRepository azureBlobRepository = new AzureBlobRepository(AzureConnString, AzureContainerName);
             await azureBlobRepository.Upload(path, fileName, "");
+            // TODO : Need to remove file from the directory. 
+
+            // TODO : Need to update the data(record) in the sql server. 
             return 0;
         }
         private int FileInfoUpdateToDB()

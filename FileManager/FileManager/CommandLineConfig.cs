@@ -36,8 +36,10 @@ namespace FileManager
             {
                 case FileUploadOptions c:
                     FileUploadOptions fileUploader = new FileUploadOptions();
-                    //fileUploader.AzureConnString = _config.GetValue<string>("MySettings:AzureStorageKey");
-                    //fileUploader.DefaultFolder = _config.GetValue<string>("DefaultFolder");
+                    fileUploader.AzureConnString =    _config.GetValue<string>("MySettings:AzureStorageKey");
+                    fileUploader.AzureContainerName = _config.GetValue<string>("MySettings:AzureContainerName"); 
+                    fileUploader.DefaultFolder =      _config.GetValue<string>("DefaultFolder");
+                    fileUploader.AzureUploadFilePath = _config.GetValue<string>("MySettings:AzureUploadFilePath");
                     fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj);
                     break;
 
