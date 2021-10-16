@@ -26,6 +26,8 @@ namespace FileManager.Domain.Models
     }
     public enum FolderStatus
     {
-
+        Added,
+        Modifed,
+        Deleted
     }
 }
