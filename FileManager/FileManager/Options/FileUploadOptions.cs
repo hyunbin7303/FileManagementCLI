@@ -71,7 +71,7 @@ namespace FileManager
         }
         private async Task<int> FileUploadToAzure(string path, string fileName)
         {
-            AzureBlobRepository azureBlobRepository = new AzureBlobRepository(AzureConnString, AzureContainerName);
+            AzureBlobAdapter azureBlobRepository = new AzureBlobAdapter(AzureConnString, AzureContainerName);
             await azureBlobRepository.Upload(path, fileName, "");
             // TODO : Need to remove file from the directory. 
 

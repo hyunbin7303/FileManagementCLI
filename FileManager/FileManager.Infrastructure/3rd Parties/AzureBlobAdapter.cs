@@ -10,13 +10,16 @@ using System.Threading.Tasks;
 
 namespace FileManager.Infrastructure._3rd_Parties
 {
-    public class AzureBlobRepository
+    // TODO : Unit test + Understand Proxy Design Pattern.
+    //Proxy Design Pattern : https://dotnettutorials.net/lesson/proxy-design-pattern/
+    //https://darthpedro.net/2021/03/18/lesson-6-3-create-blob-storage-repository/
+    public class AzureBlobAdapter : IBlobStorageAdapter
     {
         private BlobContainerClient _blobClient;
-        public AzureBlobRepository(string connString, string containerName)
+        public AzureBlobAdapter(string connString, string containerName)
         {
             _blobClient = new BlobContainerClient(connString, containerName);
-            _blobClient.CreateIfNotExists(Azure.Storage.Blobs.Models.PublicAccessType.BlobContainer);
+            _blobClient.CreateIfNotExists(PublicAccessType.BlobContainer);
         }
 
         public async Task Upload(string localFilePath, string filePathWithName, string contentType)
@@ -25,6 +28,7 @@ namespace FileManager.Infrastructure._3rd_Parties
             using FileStream uploadFileStream = File.OpenRead(localFilePath);
             await blobClient.UploadAsync(uploadFileStream, new BlobHttpHeaders { ContentType = contentType });
             uploadFileStream.Close();
+
         }
 
         public async Task<string> Download(string filePathWithName)
@@ -67,6 +71,25 @@ namespace FileManager.Infrastructure._3rd_Parties
                 Console.ReadLine();
                 throw;
             }
+        }
+
+        public BlobClient OpenBlobClient(string connection, string containerName, string blobName)
+        {
+            BlobServiceClient blobServiceClient = new BlobServiceClient(connection);
+            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+            return containerClient.GetBlobClient(blobName);
+        }
+
+        public async Task<BlobDownloadInfo> DownloadAsync(BlobClient client)
+        {
+            _ = client ?? throw new ArgumentNullException(nameof(client));
+            return await client.DownloadAsync().ConfigureAwait(false);
+        }
+
+        public async Task<int> ReadAsync(BlobDownloadInfo download, byte[] buffer)
+        {
+            _ = download ?? throw new ArgumentNullException(nameof(download));
+            return await download.Content.ReadAsync(buffer, 0, (int)download.ContentLength).ConfigureAwait(false);
         }
     }
 }

@@ -79,7 +79,7 @@ namespace FileManager
         }
         private void DownloadAzureInfo(string containerName)
         {
-            AzureBlobRepository azureBlobRepository = new AzureBlobRepository("connection string should be same..", containerName);
+            AzureBlobAdapter azureBlobRepository = new AzureBlobAdapter("connection string should be same..", containerName);
         }
 
     }
