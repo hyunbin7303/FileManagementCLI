@@ -21,8 +21,9 @@ namespace FileManager
         {
 
             var host = ConfigHelper.CreateHostBuilder(args).Build();
-         //   var svc = ActivatorUtilities.CreateInstance<FileConfigService>(host.Services); This is the way of using service.
-         //   svc.Run();
+            ActivatorUtilities.CreateInstance<FileConfigService>(host.Services); //This is the way of using service.
+            var check = ActivatorUtilities.CreateInstance<FileService>(host.Services);
+            //   svc.Run();
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -30,7 +31,7 @@ namespace FileManager
                 context.Database.EnsureCreated();
             }
             
-            CommandLineConfig commandLineConfig = new CommandLineConfig(MyAppData.Configuration);
+            CommandLineRunner commandLineConfig = new CommandLineRunner(MyAppData.Configuration, check);
             commandLineConfig.CliConfig(args);
         }
     }

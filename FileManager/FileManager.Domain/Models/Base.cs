@@ -12,9 +12,6 @@ namespace FileManager.Domain.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        [MaxLength(50)]
-        public string Name { get; set; }
-        [Required]
         public DateTime Created { get; set; } = DateTime.UtcNow;
         public DateTime? Deleted { get; set; }
         public DateTime? Modified { get; set; }

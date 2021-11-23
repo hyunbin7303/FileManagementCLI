@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 namespace FileManager
 {
-    public class CommandLineConfig
+    public class CommandLineRunner
     {
         private readonly IConfiguration _config;
-        public CommandLineConfig(IConfiguration config)
+        private readonly IFileService _fileService;
+        public CommandLineRunner(IConfiguration config, IFileService fileService)
         {
             _config = config;
+            _fileService = fileService;
         }
         public void CliConfig(string[] args)
         {
@@ -36,11 +38,11 @@ namespace FileManager
             {
                 case FileUploadOptions c:
                     FileUploadOptions fileUploader = new FileUploadOptions();
-                    fileUploader.AzureConnString =    _config.GetValue<string>("MySettings:AzureStorageKey");
-                    fileUploader.AzureContainerName = _config.GetValue<string>("MySettings:AzureContainerName"); 
-                    fileUploader.DefaultFolder =      _config.GetValue<string>("DefaultFolder");
-                    fileUploader.AzureUploadFilePath = _config.GetValue<string>("MySettings:AzureUploadFilePath");
-                    fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj);
+                    fileUploader.AzureConnString =      _config.GetValue<string>("MySettings:AzureStorageKey");
+                    fileUploader.AzureContainerName =   _config.GetValue<string>("MySettings:AzureContainerName"); 
+                    fileUploader.DefaultFolder =        _config.GetValue<string>("DefaultFolder");
+                    fileUploader.AzureUploadFilePath =  _config.GetValue<string>("MySettings:AzureUploadFilePath");
+                    fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj, _fileService);
                     break;
 
                 case FileDownloadOptions f:

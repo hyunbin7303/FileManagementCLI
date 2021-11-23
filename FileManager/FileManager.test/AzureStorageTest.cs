@@ -12,6 +12,7 @@ namespace FileManager.test
     public class AzureStorageTest
     {
         public static IConfiguration _configuration;
+        private static readonly string _azureConnectionStr = "DefaultEndpointsProtocol=https;AccountName=filesystemmanager;AccountKey=mFvs+bFBaEE1POpSKN8u0V1V/iPCw8W3NtRT6xkOtoEZhyh5kTcHdgGY9i9xeseOwxlXFAhIIqILkfk7s3t+6w==;BlobEndpoint=https://filesystemmanager.blob.core.windows.net/;QueueEndpoint=https://filesystemmanager.queue.core.windows.net/;TableEndpoint=https://filesystemmanager.table.core.windows.net/;FileEndpoint=https://filesystemmanager.file.core.windows.net/;";
 
         [SetUp]
         public void Setup(IConfiguration configuration)
@@ -30,7 +31,13 @@ namespace FileManager.test
             AzureBlobAdapter azureBlobRepository = new AzureBlobAdapter("DefaultEndpointsProtocol=https;AccountName=filesystemmanager;AccountKey=mFvs+bFBaEE1POpSKN8u0V1V/iPCw8W3NtRT6xkOtoEZhyh5kTcHdgGY9i9xeseOwxlXFAhIIqILkfk7s3t+6w==;BlobEndpoint=https://filesystemmanager.blob.core.windows.net/;QueueEndpoint=https://filesystemmanager.queue.core.windows.net/;TableEndpoint=https://filesystemmanager.table.core.windows.net/;FileEndpoint=https://filesystemmanager.file.core.windows.net/;", "container01");
             var check = await azureBlobRepository.ListBlobsFlatListing(1);
             Assert.IsNotNull(check);
-
+        }
+        [Test]
+        public void OpenBlobClient_ReturnBlobClient()
+        {
+            AzureBlobAdapter adapter = new AzureBlobAdapter("DefaultEndpointsProtocol=https;AccountName=filesystemmanager;AccountKey=mFvs+bFBaEE1POpSKN8u0V1V/iPCw8W3NtRT6xkOtoEZhyh5kTcHdgGY9i9xeseOwxlXFAhIIqILkfk7s3t+6w==;BlobEndpoint=https://filesystemmanager.blob.core.windows.net/;QueueEndpoint=https://filesystemmanager.queue.core.windows.net/;TableEndpoint=https://filesystemmanager.table.core.windows.net/;FileEndpoint=https://filesystemmanager.file.core.windows.net/;", "container01");
+            var check = adapter.OpenBlobClient(_azureConnectionStr, "container01", "");
+            Assert.IsNotNull(check);
         }
     }
 }

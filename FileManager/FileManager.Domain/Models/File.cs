@@ -7,6 +7,13 @@ namespace FileManager.Domain.Models
 {
     public class File : Base
     {
+        public string FileName { get; set; }
+        public string Storage { get; set; }
+
+        [ForeignKey("OwnerId")]
+        public string OwnerId { get; set; }
+
+
         [Required]
         public bool IsActive { get; set; }
         [Required]
@@ -14,14 +21,8 @@ namespace FileManager.Domain.Models
         [Required]
         public FileType Type { get; set; }
         [Required]
-        public SaveEnvironment Remote { get; set; }
-
-        public int OwnerId { get; set; }
-        [ForeignKey("OwnerId")]
+        public StorageType StorageType { get; set; }
         public User User { get; set; }
-
-
-
         public List<FileFolder> FileFolders { get; set; }
 
     }
@@ -37,9 +38,5 @@ namespace FileManager.Domain.Models
         Text,
         Image,
         Compressed,
-    }
-    public class FileAttributes
-    {
-
     }
 }

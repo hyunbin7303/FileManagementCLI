@@ -31,6 +31,7 @@ namespace FileManager
                     service.AddDataBase(context.Configuration);
                     service.AddSingleton(context.Configuration);
                     service.AddTransient<IFileConfigService, FileConfigService>();
+                    service.AddTransient<IFileService, FileService>();
                     MyAppData.Configuration = context.Configuration;
                 })
                 .ConfigureLogging((context, builder) =>

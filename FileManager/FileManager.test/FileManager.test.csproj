@@ -17,4 +17,8 @@
     <ProjectReference Include="..\FileManager.Infrastructure\FileManager.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ServiceLayerTest\" />
+  </ItemGroup>
+
 </Project>

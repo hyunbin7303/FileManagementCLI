@@ -2,6 +2,7 @@
 using FileManager.Infrastructure._3rd_Parties;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,8 +29,10 @@ namespace FileManager
         public string AzureContainerName { get; set; }
         public string AzureUploadFilePath { get; set; }
 
-        public int RunAddAndReturnExitCode(FileUploadOptions options)
+        private IFileService _fileService;
+        public int RunAddAndReturnExitCode(FileUploadOptions options, IFileService fileService)
         {
+            _fileService = fileService;
             if (options.Verbose && !string.IsNullOrEmpty(options.Source))
             {
                 Console.WriteLine($"Verbose : {options.Verbose}");
@@ -44,6 +47,8 @@ namespace FileManager
             Console.WriteLine("1.Google Drive.");
             Console.WriteLine("2.Azure Storage.");
             var userInput = Console.ReadLine();
+
+
             if (userInput == "1")
             {
                 Console.WriteLine("Downloading Google Files.");
@@ -54,6 +59,7 @@ namespace FileManager
                 Console.WriteLine("Type file name.");
                 var fileNameInput = Console.ReadLine();
                 var check = FileUploadToAzure(AzureUploadFilePath, fileNameInput);
+                FileInfoUpdateToDB();
             }
 
             else
@@ -74,7 +80,6 @@ namespace FileManager
             AzureBlobAdapter azureBlobRepository = new AzureBlobAdapter(AzureConnString, AzureContainerName);
             await azureBlobRepository.Upload(path, fileName, "");
             // TODO : Need to remove file from the directory. 
-
             // TODO : Need to update the data(record) in the sql server. 
             return 0;
         }

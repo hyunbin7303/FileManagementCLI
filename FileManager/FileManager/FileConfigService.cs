@@ -8,11 +8,6 @@ using System.Threading.Tasks;
 
 namespace FileManager
 {
-    public interface IFileConfigService
-    {
-        public void Run();
-        public void DatabaseSetup();
-    }
     public class FileConfigService : IFileConfigService
     {
         private readonly ILogger<FileConfigService> _log;
@@ -22,12 +17,10 @@ namespace FileManager
             _log = log;
             _config = config;
         }
-
         public void DatabaseSetup()
         {
             throw new NotImplementedException();
         }
-
         public void Run()
         {
             for (int i = 0; i < _config.GetValue<int>("LoopTimes"); i++)

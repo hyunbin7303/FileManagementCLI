@@ -1,17 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31402.337
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManager", "FileManager\FileManager.csproj", "{653859A5-592B-42DB-9CA1-E09875273475}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManager.Domain", "FileManager.Domain\FileManager.Domain.csproj", "{EC749F0A-CCF0-425B-978F-4756146FF296}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManager.Service", "FileManager.Service\FileManager.Service.csproj", "{C4455917-6B97-438D-AD00-A7426B4804A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManager.test", "FileManager.test\FileManager.test.csproj", "{7939DADC-6B4C-418F-BE71-60C92BF256B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManager.test", "FileManager.test\FileManager.test.csproj", "{7939DADC-6B4C-418F-BE71-60C92BF256B6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManager.Infrastructure", "FileManager.Infrastructure\FileManager.Infrastructure.csproj", "{484D0074-9442-4478-8F28-148553C5AE2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManager.Infrastructure", "FileManager.Infrastructure\FileManager.Infrastructure.csproj", "{484D0074-9442-4478-8F28-148553C5AE2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +25,6 @@ Global
 		{EC749F0A-CCF0-425B-978F-4756146FF296}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC749F0A-CCF0-425B-978F-4756146FF296}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC749F0A-CCF0-425B-978F-4756146FF296}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C4455917-6B97-438D-AD00-A7426B4804A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4455917-6B97-438D-AD00-A7426B4804A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4455917-6B97-438D-AD00-A7426B4804A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4455917-6B97-438D-AD00-A7426B4804A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7939DADC-6B4C-418F-BE71-60C92BF256B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7939DADC-6B4C-418F-BE71-60C92BF256B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7939DADC-6B4C-418F-BE71-60C92BF256B6}.Release|Any CPU.ActiveCfg = Release|Any CPU

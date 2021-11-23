@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace FileManager.Infrastructure._3rd_Parties
 {
     // TODO : Unit test + Understand Proxy Design Pattern.
-    //Proxy Design Pattern : https://dotnettutorials.net/lesson/proxy-design-pattern/
-    //https://darthpedro.net/2021/03/18/lesson-6-3-create-blob-storage-repository/
+    // Proxy Design Pattern : https://dotnettutorials.net/lesson/proxy-design-pattern/
+    // https://darthpedro.net/2021/03/18/lesson-6-3-create-blob-storage-repository/
     public class AzureBlobAdapter : IBlobStorageAdapter
     {
         private BlobContainerClient _blobClient;

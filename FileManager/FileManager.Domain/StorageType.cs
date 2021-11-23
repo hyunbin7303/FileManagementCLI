@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace FileManager.Domain
 {
-    public enum SaveEnvironment
+    public enum StorageType
     {
         Local,
+        AzureBlobStorage,
         GoogleDrive,
         Dropbox
     }
