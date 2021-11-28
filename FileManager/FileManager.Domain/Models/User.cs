@@ -7,16 +7,13 @@ using System.Threading.Tasks;
 
 namespace FileManager.Domain.Models
 {
-    public class User
+    public class User : Base
     {
-        [Key]
-        public int Id { get; set; }
-        [Required]
         public string UserId { get; set; }
         public string Permission { get; set; }
         public DateTimeOffset ModifiedDate { get; set; }
 
-        public List<File> Files { get; set; }
-        public List<Folder> Folders { get; set; }
+        //public List<File> Files { get; set; }
+        //public List<Folder> Folders { get; set; }
     }
 }

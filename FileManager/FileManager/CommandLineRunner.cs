@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using FileManager.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ namespace FileManager
     {
         private readonly IConfiguration _config;
         private readonly IFileService _fileService;
-        public CommandLineRunner(IConfiguration config, IFileService fileService)
+        private readonly IFileConfigService _fileConfigService;
+        public CommandLineRunner(IConfiguration config, IFileConfigService configService,IFileService fileService)
         {
             _config = config;
+            _fileConfigService = configService;
             _fileService = fileService;
         }
         public void CliConfig(string[] args)
@@ -38,6 +41,7 @@ namespace FileManager
             {
                 case FileUploadOptions c:
                     FileUploadOptions fileUploader = new FileUploadOptions();
+                    fileUploader.user.UserId =          _config.GetValue<string>("UserId");
                     fileUploader.AzureConnString =      _config.GetValue<string>("MySettings:AzureStorageKey");
                     fileUploader.AzureContainerName =   _config.GetValue<string>("MySettings:AzureContainerName"); 
                     fileUploader.DefaultFolder =        _config.GetValue<string>("DefaultFolder");

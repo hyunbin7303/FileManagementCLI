@@ -9,11 +9,7 @@ namespace FileManager.Domain.Models
     {
         public string FileName { get; set; }
         public string Storage { get; set; }
-
-        [ForeignKey("OwnerId")]
         public string OwnerId { get; set; }
-
-
         [Required]
         public bool IsActive { get; set; }
         [Required]
@@ -23,20 +19,7 @@ namespace FileManager.Domain.Models
         [Required]
         public StorageType StorageType { get; set; }
         public User User { get; set; }
-        public List<FileFolder> FileFolders { get; set; }
+        //public List<FileFolder> FileFolders { get; set; }
 
-    }
-    public enum FileStatus
-    {
-        Added,
-        Modifed,
-        Deleted
-    }
-    public enum FileType
-    {
-        Unkown,
-        Text,
-        Image,
-        Compressed,
     }
 }

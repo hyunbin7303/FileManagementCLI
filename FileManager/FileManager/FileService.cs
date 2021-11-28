@@ -10,9 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 namespace FileManager
 {
-#pragma warning disable CS0436 // Type conflicts with imported type
     public class FileService : IFileService
-#pragma warning restore CS0436 // Type conflicts with imported type
     {
         //TODO : SQL Connection. 
         //private readonly string _folderDirectory = "c://";

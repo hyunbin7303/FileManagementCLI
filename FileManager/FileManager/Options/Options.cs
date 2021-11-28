@@ -9,7 +9,10 @@ namespace FileManager
     public class Options
     {
         public User user { get; set; }
-        public Options(){}
+        public Options()
+        {
+            user = new User();
+        }
         [Option("filename", Required = false, HelpText = "Input filename.")]
         public string filename { get; set; }
 
@@ -21,5 +24,6 @@ namespace FileManager
 
         [Option('v', "verbose", Default = false,HelpText = "Prints all messages to standard output.")]
         public bool Verbose { get; set; }
+
     }
 }

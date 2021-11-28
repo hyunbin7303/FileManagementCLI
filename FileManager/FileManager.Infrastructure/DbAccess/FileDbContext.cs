@@ -20,20 +20,20 @@ namespace FileManager.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FileFolder>()
-                .HasKey(ff => new {ff.FileId, ff.FolderId });
+            //modelBuilder.Entity<FileFolder>()
+            //    .HasKey(ff => new {ff.FileId, ff.FolderId });
 
-            modelBuilder.Entity<FileFolder>()
-                .HasOne(ff => ff.File)
-                .WithMany(f => f.FileFolders)
-                .HasForeignKey(ff => ff.FileId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<FileFolder>()
+            //    .HasOne(ff => ff.File)
+            //    .WithMany(f => f.FileFolders)
+            //    .HasForeignKey(ff => ff.FileId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<FileFolder>()
-                .HasOne(ff => ff.Folder)
-                .WithMany(f => f.FileFolders)
-                .HasForeignKey(ff => ff.FolderId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<FileFolder>()
+            //    .HasOne(ff => ff.Folder)
+            //    .WithMany(f => f.FileFolders)
+            //    .HasForeignKey(ff => ff.FolderId)
+            //    .OnDelete(DeleteBehavior.NoAction);
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using FileManager.Infrastructure;
 using FileManager.Infrastructure._3rd_Parties;
 using System;
 using System.Collections.Generic;
@@ -24,12 +25,15 @@ namespace FileManager
         [Option('d', "destination", HelpText = "Destination to store the data.")]
         public string Destination { get; set; }
 
+
         public string DefaultFolder { get; set; }
         public string AzureConnString { get; set; }
         public string AzureContainerName { get; set; }
         public string AzureUploadFilePath { get; set; }
 
         private IFileService _fileService;
+        private IFileConfigService _fileConfigService;
+
         public int RunAddAndReturnExitCode(FileUploadOptions options, IFileService fileService)
         {
             _fileService = fileService;
@@ -44,8 +48,10 @@ namespace FileManager
         private void SelectOptions()
         {
             Console.WriteLine("Uploader Option Display.");
-            Console.WriteLine("1.Google Drive.");
-            Console.WriteLine("2.Azure Storage.");
+            WinFileManageHelper.FileDisplay(DefaultFolder);
+
+            Console.WriteLine("1. Upload all files to the Azure blob.");
+            Console.WriteLine("2. Upload the specific file to the Azure blob.");
             var userInput = Console.ReadLine();
 
 
@@ -58,7 +64,7 @@ namespace FileManager
             {
                 Console.WriteLine("Type file name.");
                 var fileNameInput = Console.ReadLine();
-                var check = FileUploadToAzure(AzureUploadFilePath, fileNameInput);
+                var check = FileUploadToAzure(user.UserId,AzureUploadFilePath, fileNameInput);
                 FileInfoUpdateToDB();
             }
 
@@ -75,11 +81,13 @@ namespace FileManager
 
             return 0;
         }
-        private async Task<int> FileUploadToAzure(string path, string fileName)
+        private async Task<int> FileUploadToAzure(string userName,string path, string fileName)
         {
             AzureBlobAdapter azureBlobRepository = new AzureBlobAdapter(AzureConnString, AzureContainerName);
             await azureBlobRepository.Upload(path, fileName, "");
             // TODO : Need to remove file from the directory. 
+
+            _fileService.UploadFileToDestination(Domain.StorageType.AzureBlobStorage, userName, fileName, path);
             // TODO : Need to update the data(record) in the sql server. 
             return 0;
         }

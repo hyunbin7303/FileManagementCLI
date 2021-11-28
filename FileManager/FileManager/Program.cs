@@ -19,11 +19,20 @@ namespace FileManager
     {
         static void Main(string[] args)
         {
+            //var serviceProvider = new ServiceCollection()
+            //    .AddLogging()
+            //    .AddSingleton<IFileService, FileService>()
+            //    .AddSingleton<IFileConfigService, FileConfigService>()
+            //    .BuildServiceProvider();
+
+
 
             var host = ConfigHelper.CreateHostBuilder(args).Build();
-            ActivatorUtilities.CreateInstance<FileConfigService>(host.Services); //This is the way of using service.
-            var check = ActivatorUtilities.CreateInstance<FileService>(host.Services);
-            //   svc.Run();
+            var fileConfigService = ActivatorUtilities.CreateInstance<FileConfigService>(host.Services); //This is the way of using service.
+            var fileService = ActivatorUtilities.CreateInstance<FileService>(host.Services);
+
+
+
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -31,7 +40,7 @@ namespace FileManager
                 context.Database.EnsureCreated();
             }
             
-            CommandLineRunner commandLineConfig = new CommandLineRunner(MyAppData.Configuration, check);
+            CommandLineRunner commandLineConfig = new CommandLineRunner(MyAppData.Configuration, fileConfigService, fileService);
             commandLineConfig.CliConfig(args);
         }
     }
