@@ -22,13 +22,13 @@ namespace FileManager.Infrastructure._3rd_Parties
             _blobClient.CreateIfNotExists(PublicAccessType.BlobContainer);
         }
 
-        public async Task Upload(string localFilePath, string filePathWithName, string contentType)
+        public async Task<bool> Upload(string localFilePath, string filePathWithName, string contentType)
         {
             BlobClient blobClient = _blobClient.GetBlobClient(filePathWithName);
             using FileStream uploadFileStream = File.OpenRead(localFilePath);
-            await blobClient.UploadAsync(uploadFileStream, new BlobHttpHeaders { ContentType = contentType });
+            var check = await blobClient.UploadAsync(uploadFileStream, new BlobHttpHeaders { ContentType = contentType });
             uploadFileStream.Close();
-
+            return true;
         }
 
         public async Task<string> Download(string filePathWithName)

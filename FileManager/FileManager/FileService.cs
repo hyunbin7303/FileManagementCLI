@@ -1,6 +1,7 @@
 ﻿using FileManager.Domain;
 using FileManager.Domain.Models;
 using FileManager.Infrastructure;
+using FileManager.Infrastructure._3rd_Parties;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -57,12 +58,7 @@ namespace FileManager
             throw new NotImplementedException();
         }
 
-        public Task<bool> UploadFileToDestination(string fileId, string destination)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UploadFileToDestination(StorageType module, string userId, string fileName, string path)
+        public async Task<bool> UploadFilesToDestination(StorageType module, object provider, string userId, string fileName, string path)
         {
             switch(module)
             {
@@ -70,6 +66,19 @@ namespace FileManager
                     break;
 
                 case StorageType.AzureBlobStorage:
+                    var check = (CloudSetup)provider;
+                    AzureBlobAdapter azureBlobAdapter = new AzureBlobAdapter(check.ConnString, check.ContainerName);
+
+                    var files = WinFileManageHelper.GetAllFiles(path);
+                    foreach(var file in files)
+                    {
+                        await azureBlobAdapter.Upload(path, file.Name, file.Attributes.ToString());
+                        // TODO : Need to remove file from the directory
+                        // TODO : Need to update the data(record) in the sql server. 
+                        //_fileDbContext.Files.Add(file);
+                        _log.LogInformation($"File:{file.FullName} is inserted to the Azure Blob.");
+
+                    }
                     break;
 
                 default:
@@ -77,7 +86,7 @@ namespace FileManager
                     break;
             }
 
-            return Task.FromResult(false);
+            return false;
         }
     }
 }

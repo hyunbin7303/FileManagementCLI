@@ -11,7 +11,7 @@ namespace FileManager
         IList<string> GetFiles();
         Task<File> GetFileById(int Id);
         Task<File> GetFileByFileName(string fileName);
-        Task<bool> UploadFileToDestination(StorageType module, string userId, string fileName, string path);
+        Task<bool> UploadFilesToDestination(StorageType module, object provider, string userId, string fileName, string path);
         Task<IList<File>> GetFilesByUserInfo(string userId);
         Task<bool> IsFileUnique(string fileName, CancellationToken cancellationToken);
         Task CreateFolderInDirectory(string targetDirectory);

@@ -16,16 +16,35 @@ namespace FileManager.Infrastructure
 
         public static void FileDisplay(string fileDirectory)
         {
-            //creating a DirectoryInfo object
-            DirectoryInfo mydir = new DirectoryInfo(@fileDirectory);
-
-            // getting the files in the directory, their names and size
-            FileInfo[] f = mydir.GetFiles();
-            foreach (FileInfo file in f)
+            try
             {
-                Console.WriteLine("File Name: {0} Size: {1}", file.Name, file.Length);
+                //creating a DirectoryInfo object
+                DirectoryInfo mydir = new DirectoryInfo(@fileDirectory);
+                // getting the files in the directory, their names and size
+                FileInfo[] f = mydir.GetFiles();
+                foreach (FileInfo file in f)
+                {
+                    Console.WriteLine("File Name: {0} Size: {1}", file.Name, file.Length);
+                }
             }
-            Console.ReadKey();
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        public static IEnumerable<FileInfo> GetAllFiles(string fileDirectory)
+        {
+            try
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(@fileDirectory);
+                List<FileInfo> files = new List<FileInfo>();
+                var f = directoryInfo.GetFiles().AsEnumerable();
+                return f;
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
         }
     }
 }

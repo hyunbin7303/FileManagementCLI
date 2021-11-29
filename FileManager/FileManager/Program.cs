@@ -19,19 +19,9 @@ namespace FileManager
     {
         static void Main(string[] args)
         {
-            //var serviceProvider = new ServiceCollection()
-            //    .AddLogging()
-            //    .AddSingleton<IFileService, FileService>()
-            //    .AddSingleton<IFileConfigService, FileConfigService>()
-            //    .BuildServiceProvider();
-
-
-
             var host = ConfigHelper.CreateHostBuilder(args).Build();
             var fileConfigService = ActivatorUtilities.CreateInstance<FileConfigService>(host.Services); //This is the way of using service.
             var fileService = ActivatorUtilities.CreateInstance<FileService>(host.Services);
-
-
 
             using (var scope = host.Services.CreateScope())
             {
