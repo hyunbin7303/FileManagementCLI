@@ -28,14 +28,16 @@ namespace FileManager
             _fileDbContext = dbContext;
         }
 
-        public Task CreateFolderInDirectory(string targetDirectory)
+        public Task CreateFolderInDirectory(string targetDirectory, string fileName)
         {
+            // TODO : 
             throw new NotImplementedException();
         }
 
-        public Task<File> GetFileByFileName(string fileName)
+        public async Task<File> GetFileByFileName(string fileName)
         {
-            throw new NotImplementedException();
+            var file = _fileDbContext.Files.FirstOrDefault(f =>f.FileName == fileName);
+            return await Task.FromResult(file);
         }
 
         public Task<File> GetFileById(int Id)
@@ -45,12 +47,19 @@ namespace FileManager
 
         public IList<string> GetFiles()
         {
+            //_fileDbContext.Files.
             throw new NotImplementedException();
         }
 
-        public Task<IList<File>> GetFilesByUserInfo(string userId)
+        public IList<File> GetFilesByUserInfo(string userId)
         {
-            throw new NotImplementedException();
+            var file = from f in _fileDbContext.Files
+                       where f.OwnerId.Equals(userId)
+                       select f;
+
+            var files =  _fileDbContext.Files.Where(f => f.OwnerId == userId).ToList();
+            return files;
+
         }
 
         public Task<bool> IsFileUnique(string fileName, CancellationToken cancellationToken)

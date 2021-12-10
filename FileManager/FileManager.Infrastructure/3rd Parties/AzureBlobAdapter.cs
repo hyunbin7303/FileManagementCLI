@@ -31,7 +31,7 @@ namespace FileManager.Infrastructure._3rd_Parties
             return true;
         }
 
-        public async Task<string> Download(string filePathWithName)
+        public async Task<string> Download(string filePathWithName, string destinationPath)
         {
             BlobClient blobClient = _blobClient.GetBlobClient(filePathWithName);
             if (await blobClient.ExistsAsync())
@@ -39,6 +39,14 @@ namespace FileManager.Infrastructure._3rd_Parties
                 BlobDownloadInfo download = await blobClient.DownloadAsync();
                 byte[] result = new byte[download.ContentLength];
                 await download.Content.ReadAsync(result, 0, (int)download.ContentLength);
+
+                // provide the file download location below            
+                Stream file = File.OpenWrite(@"C:\" + destinationPath);
+                //TODO : Kevin Fix this.
+                //blobClient.DownloadStreaming(file);
+                //cloudBlockBlob.DownloadToStream(file);
+                Console.WriteLine("Download completed!");
+
 
                 return Encoding.UTF8.GetString(result);
             }
@@ -91,5 +99,6 @@ namespace FileManager.Infrastructure._3rd_Parties
             _ = download ?? throw new ArgumentNullException(nameof(download));
             return await download.Content.ReadAsync(buffer, 0, (int)download.ContentLength).ConfigureAwait(false);
         }
+
     }
 }

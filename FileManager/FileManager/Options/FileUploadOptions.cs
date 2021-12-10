@@ -52,14 +52,14 @@ namespace FileManager
             var userInput = Console.ReadLine();
             if (userInput == "1")
             {
-                _fileService.UploadFilesToDestination(Domain.StorageType.AzureBlobStorage, AzureSetup, user.UserId, string.Empty, AzureSetup.AzureUploadFilePath);
+                _fileService.UploadFilesToDestination(StorageType.AzureBlobStorage, AzureSetup, user.UserId, string.Empty, AzureSetup.AzureUploadFilePath);
 
             }
             else if (userInput == "2")
             {
                 Console.WriteLine("Please enter file name.");
                 var fileNameInput = Console.ReadLine();
-                _fileService.UploadFilesToDestination(Domain.StorageType.AzureBlobStorage, AzureSetup,user.UserId, fileNameInput, AzureSetup.AzureUploadFilePath);
+                _fileService.UploadFilesToDestination(StorageType.AzureBlobStorage, AzureSetup,user.UserId, fileNameInput, AzureSetup.AzureUploadFilePath);
             }
             else
             {

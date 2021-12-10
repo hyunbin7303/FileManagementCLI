@@ -27,7 +27,7 @@ namespace FileManager
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<FileDbContext>();
-                context.Database.EnsureCreated();
+                context.Database.EnsureCreated(); 
             }
             
             CommandLineRunner commandLineConfig = new CommandLineRunner(MyAppData.Configuration, fileConfigService, fileService);
