@@ -13,27 +13,36 @@ namespace FileManager.Infrastructure._3rd_Parties
     // TODO : Unit test + Understand Proxy Design Pattern.
     // Proxy Design Pattern : https://dotnettutorials.net/lesson/proxy-design-pattern/
     // https://darthpedro.net/2021/03/18/lesson-6-3-create-blob-storage-repository/
+
     public class AzureBlobAdapter : IBlobStorageAdapter
     {
-        private BlobContainerClient _blobClient;
+        private BlobContainerClient _blobContainerClient;
         public AzureBlobAdapter(string connString, string containerName)
         {
-            _blobClient = new BlobContainerClient(connString, containerName);
-            _blobClient.CreateIfNotExists(PublicAccessType.BlobContainer);
+            _blobContainerClient = new BlobContainerClient(connString, containerName);
+            _blobContainerClient.CreateIfNotExists(PublicAccessType.BlobContainer);
         }
 
-        public async Task<bool> Upload(string localFilePath, string filePathWithName, string contentType)
+        public async Task<bool> UploadAsync(string localFilePath, string filePathWithName, string contentType)
         {
-            BlobClient blobClient = _blobClient.GetBlobClient(filePathWithName);
+
+            var createResponse = await _blobContainerClient.CreateIfNotExistsAsync();
+            if (createResponse != null && createResponse.GetRawResponse().Status == 201)
+                await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
+
+            BlobClient blobClient = _blobContainerClient.GetBlobClient(filePathWithName);
+            await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots); 
+
+            
             using FileStream uploadFileStream = File.OpenRead(localFilePath);
             var check = await blobClient.UploadAsync(uploadFileStream, new BlobHttpHeaders { ContentType = contentType });
             uploadFileStream.Close();
             return true;
         }
 
-        public async Task<string> Download(string filePathWithName, string destinationPath)
-        {
-            BlobClient blobClient = _blobClient.GetBlobClient(filePathWithName);
+        public async Task<string> DownloadFile(string filePathWithName, string destinationPath)
+        { 
+            BlobClient blobClient = _blobContainerClient.GetBlobClient(filePathWithName);
             if (await blobClient.ExistsAsync())
             {
                 BlobDownloadInfo download = await blobClient.DownloadAsync();
@@ -42,19 +51,15 @@ namespace FileManager.Infrastructure._3rd_Parties
 
                 // provide the file download location below            
                 Stream file = File.OpenWrite(@"C:\" + destinationPath);
-                //TODO : Kevin Fix this.
-                //blobClient.DownloadStreaming(file);
-                //cloudBlockBlob.DownloadToStream(file);
-                Console.WriteLine("Download completed!");
-
-
+                var test = await blobClient.DownloadToAsync(file);
+                Console.WriteLine("Download completed!" + test.ToString());
                 return Encoding.UTF8.GetString(result);
             }
             return string.Empty;
         }
         public async Task<bool> Delete(string pathAndFileName)
         {
-            BlobClient blobClient = _blobClient.GetBlobClient(pathAndFileName);
+            BlobClient blobClient = _blobContainerClient.GetBlobClient(pathAndFileName);
             return await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
         }
 
@@ -63,7 +68,7 @@ namespace FileManager.Infrastructure._3rd_Parties
             try
             {
                 List<string> blobsStrlist = new List<string>();
-                var resultSegment = _blobClient.GetBlobsAsync().AsPages(default, segmentSize);
+                var resultSegment = _blobContainerClient.GetBlobsAsync().AsPages(default, segmentSize);
                 await foreach (Page<BlobItem> blobPage in resultSegment)
                 {
                     foreach (BlobItem blobItem in blobPage.Values)

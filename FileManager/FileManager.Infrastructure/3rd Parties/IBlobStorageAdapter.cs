@@ -12,8 +12,8 @@ namespace FileManager.Infrastructure._3rd_Parties
     {
         BlobClient OpenBlobClient(string connection, string containerName, string blobName);
         Task<BlobDownloadInfo> DownloadAsync(BlobClient client);
-        public Task<string> Download(string filePathWithName);
-        Task<bool> Upload(string localFilePath, string filePathWithName, string contentType);
+        public Task<string> DownloadFile(string filePathWithName, string destinationPath);
+        Task<bool> UploadAsync(string localFilePath, string filePathWithName, string contentType);
         Task<int> ReadAsync(BlobDownloadInfo download, byte[] buffer);
         Task<bool> Delete(string pathAndFileName);
 

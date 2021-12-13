@@ -81,7 +81,7 @@ namespace FileManager
                     var files = WinFileManageHelper.GetAllFiles(path);
                     foreach(var file in files)
                     {
-                        await azureBlobAdapter.Upload(path, file.Name, file.Attributes.ToString());
+                        await azureBlobAdapter.UploadAsync(path, file.Name, file.Attributes.ToString());
                         // TODO : Need to remove file from the directory
                         // TODO : Need to update the data(record) in the sql server. 
                         //_fileDbContext.Files.Add(file);

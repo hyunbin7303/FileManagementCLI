@@ -21,7 +21,7 @@ namespace FileManager.test
         public async Task Upload_ReturnTrueIfSuccess()
         {
             AzureBlobAdapter azureBlobRepository = new AzureBlobAdapter(_azureConnectionStr, "container01");
-            var check = await azureBlobRepository.Upload("C:\\Kevin\\TestFolder\\JsonTest.json", "Kevin.json", "application/json");
+            var check = await azureBlobRepository.UploadAsync("C:\\Kevin\\TestFolder\\JsonTest.json", "Kevin.json", "application/json");
             Assert.IsTrue(check);
         }
 
@@ -41,10 +41,10 @@ namespace FileManager.test
             Assert.IsNotNull(check);
         }
         [Test]
-        public async Task Download_ReturnFile()
+        public async Task DownloadFile_GetFileToDirectory()
         {
             AzureBlobAdapter adapter = new AzureBlobAdapter(_azureConnectionStr, "container01");
-            var check = await adapter.Download("Kevin.json");
+            var check = await adapter.DownloadFile("Kevin.json", "");
             Assert.IsNotNull(check);
         }
 

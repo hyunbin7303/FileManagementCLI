@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FileManager.Domain.Models;
 using Microsoft.Extensions.Logging;
+using FileManager.Domain;
 
 namespace FileManager
 {
@@ -27,9 +28,13 @@ namespace FileManager
 
         [Option('d', "destination", HelpText = "Destination to download the data.")]
         public string Destination { get; set; }
+        public CloudSetup AzureSetup { get; set; } = new CloudSetup();
 
-        public int RunAddAndReturnExitCode(FileDownloadOptions options)
+        private IFileService _fileService;
+
+        public int RunAddAndReturnExitCode(FileDownloadOptions options, IFileService fileService)
         {
+            _fileService = fileService;
             if (options.Verbose && !string.IsNullOrEmpty(options.Source))
             {
                 Console.WriteLine($"Verbose : {options.Verbose}");
@@ -51,12 +56,13 @@ namespace FileManager
         private void SelectOptions()
         {
             Console.WriteLine("Display ----------------");
-            Console.WriteLine("1. Downloading Google FIles.");
-            Console.WriteLine("2. Downloading file from the Dropbox.");
-            Console.WriteLine("3. More info.");
+            Console.WriteLine("1. Downloading Azureblob file.");
+            Console.WriteLine("2. Downloading file from the GoogleDoc.");
+            Console.WriteLine("3. Exit.");
             var userInput = Console.ReadLine();
             if (userInput == "1")
             {
+                Log.Logger.Information("Downloading Google Files.");
                 Console.WriteLine("Downloading Google Files.");
                 GoogleDocDownloading(FileName);
             }

@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using FileManager.Domain;
 using FileManager.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -37,21 +38,26 @@ namespace FileManager
         }
         private void Run(object obj)
         {
+            CloudSetup cloudSetup = new CloudSetup();
+            cloudSetup.ConnString = _config.GetValue<string>("MySettings:AzureStorageKey");
+            cloudSetup.ContainerName = _config.GetValue<string>("MySettings:AzureContainerName");
+            cloudSetup.DefaultFolder = _config.GetValue<string>("DefaultFolder");
+            cloudSetup.AzureUploadFilePath = _config.GetValue<string>("MySettings:AzureUploadFilePath");
             switch (obj)
             {
+                // file uploader & Downloader Azure setup config needs to be fixed. Duplicated Code. 
                 case FileUploadOptions c:
                     FileUploadOptions fileUploader = new FileUploadOptions();
-                    fileUploader.user.UserId =                     _config.GetValue<string>("UserId");
-                    fileUploader.AzureSetup.ConnString =           _config.GetValue<string>("MySettings:AzureStorageKey");
-                    fileUploader.AzureSetup.ContainerName =        _config.GetValue<string>("MySettings:AzureContainerName"); 
-                    fileUploader.AzureSetup.DefaultFolder =        _config.GetValue<string>("DefaultFolder");
-                    fileUploader.AzureSetup.AzureUploadFilePath =  _config.GetValue<string>("MySettings:AzureUploadFilePath");
+                    fileUploader.user.UserId = _config.GetValue<string>("UserId");
+                    fileUploader.AzureSetup = cloudSetup;
                     fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj, _fileService);
                     break;
 
                 case FileDownloadOptions f:
                     FileDownloadOptions fileDownloader = new FileDownloadOptions();
-                    fileDownloader.RunAddAndReturnExitCode((FileDownloadOptions)obj);
+                    fileDownloader.user.UserId = _config.GetValue<string>("UserId");
+                    fileDownloader.AzureSetup  = cloudSetup;
+                    fileDownloader.RunAddAndReturnExitCode((FileDownloadOptions)obj, _fileService);
                     break;
 
                 case DirectoryChangeOptions d:
