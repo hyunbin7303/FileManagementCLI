@@ -40,7 +40,7 @@ namespace FileManager.Infrastructure._3rd_Parties
             return true;
         }
 
-        public async Task<string> DownloadFile(string filePathWithName, string destinationPath)
+        public async Task<string> DownloadFileAsync(string filePathWithName, string destinationPath)
         { 
             BlobClient blobClient = _blobContainerClient.GetBlobClient(filePathWithName);
             if (await blobClient.ExistsAsync())
@@ -91,12 +91,6 @@ namespace FileManager.Infrastructure._3rd_Parties
             BlobServiceClient blobServiceClient = new BlobServiceClient(connection);
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
             return containerClient.GetBlobClient(blobName);
-        }
-
-        public async Task<BlobDownloadInfo> DownloadAsync(BlobClient client)
-        {
-            _ = client ?? throw new ArgumentNullException(nameof(client));
-            return await client.DownloadAsync().ConfigureAwait(false);
         }
 
         public async Task<int> ReadAsync(BlobDownloadInfo download, byte[] buffer)

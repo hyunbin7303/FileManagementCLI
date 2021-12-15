@@ -45,13 +45,13 @@ namespace FileManager
             throw new NotImplementedException();
         }
 
-        public IList<string> GetFiles()
+        public IList<File> GetFiles()
         {
-            //_fileDbContext.Files.
-            throw new NotImplementedException();
+            var files = (from f in _fileDbContext.Files where f.IsActive == true select f).ToList();
+            return files;
         }
 
-        public IList<File> GetFilesByUserInfo(string userId)
+        public IList<File> GetFilesByUserId(string userId)
         {
             var file = from f in _fileDbContext.Files
                        where f.OwnerId.Equals(userId)

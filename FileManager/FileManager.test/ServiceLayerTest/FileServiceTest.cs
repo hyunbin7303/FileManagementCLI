@@ -5,20 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileManager.test
+namespace FileManager.test.ServiceLayerTest
 {
-    public class MyOwnTest
+    public class FileServiceTest
     {
         [SetUp]
         public void Setup()
         {
         }
-
         [Test]
-        public async Task GetListsAsyncTest()
+        public async Task DownloadFile_GetFileToDirectory()
         {
-
-
         }
     }
 }

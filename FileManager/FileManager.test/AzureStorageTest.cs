@@ -44,7 +44,7 @@ namespace FileManager.test
         public async Task DownloadFile_GetFileToDirectory()
         {
             AzureBlobAdapter adapter = new AzureBlobAdapter(_azureConnectionStr, "container01");
-            var check = await adapter.DownloadFile("Kevin.json", "");
+            var check = await adapter.DownloadFileAsync("Kevin.json", "");
             Assert.IsNotNull(check);
         }
 

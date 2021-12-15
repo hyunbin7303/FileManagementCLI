@@ -28,6 +28,7 @@ namespace FileManager
 
         [Option('d', "destination", HelpText = "Destination to download the data.")]
         public string Destination { get; set; }
+
         public CloudSetup AzureSetup { get; set; } = new CloudSetup();
 
         private IFileService _fileService;
@@ -57,17 +58,21 @@ namespace FileManager
         {
             Console.WriteLine("Display ----------------");
             Console.WriteLine("1. Downloading Azureblob file.");
-            Console.WriteLine("2. Downloading file from the GoogleDoc.");
+            Console.WriteLine("2. Download all files from the Azure Blob.");
             Console.WriteLine("3. Exit.");
             var userInput = Console.ReadLine();
             if (userInput == "1")
             {
-                Log.Logger.Information("Downloading Google Files.");
-                Console.WriteLine("Downloading Google Files.");
-                GoogleDocDownloading(FileName);
+                Log.Logger.Information("Downloading Azureblob file.");
+                var check = _fileService.GetFilesByUserId(user.UserId);
+                foreach(var file in check)
+                {
+                    DownloadAzureInfo("", "");
+                }
             }
             else if (userInput == "2")
             {
+                var check = _fileService.GetFilesByUserId(user.UserId);
 
             }
             else if (userInput == "3")
@@ -79,13 +84,10 @@ namespace FileManager
                 return;
             }
         }
-        public void GoogleDocDownloading(string fileId)
+        private async Task DownloadAzureInfo(string filePathWithName, string destinationPath)
         {
-
-        }
-        private void DownloadAzureInfo(string containerName)
-        {
-            AzureBlobAdapter azureBlobRepository = new AzureBlobAdapter("connection string should be same..", containerName);
+            AzureBlobAdapter adapter = new AzureBlobAdapter(AzureSetup.ConnString, AzureSetup.ContainerName);
+            var check  = await adapter.DownloadFileAsync(filePathWithName, destinationPath);
         }
 
     }
