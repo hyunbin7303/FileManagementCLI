@@ -23,21 +23,29 @@ namespace FileManager.Infrastructure._3rd_Parties
             _blobContainerClient.CreateIfNotExists(PublicAccessType.BlobContainer);
         }
 
-        public async Task<bool> UploadAsync(string localFilePath, string filePathWithName, string contentType)
+        public bool UploadFile(string localFilePath, string filePathWithName, string contentType)
         {
+            try
+            {
+                //var createResponse = await _blobContainerClient.CreateIfNotExistsAsync();
+                //if (createResponse != null && createResponse.GetRawResponse().Status == 201)
+                //    await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
 
-            var createResponse = await _blobContainerClient.CreateIfNotExistsAsync();
-            if (createResponse != null && createResponse.GetRawResponse().Status == 201)
-                await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
+                BlobClient blobClient = _blobContainerClient.GetBlobClient(filePathWithName);
+                //      await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots); 
 
-            BlobClient blobClient = _blobContainerClient.GetBlobClient(filePathWithName);
-            await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots); 
 
-            
-            using FileStream uploadFileStream = File.OpenRead(localFilePath);
-            var check = await blobClient.UploadAsync(uploadFileStream, new BlobHttpHeaders { ContentType = contentType });
-            uploadFileStream.Close();
-            return true;
+                using FileStream uploadFileStream = File.OpenRead(localFilePath + "//" + filePathWithName);
+                var check = blobClient.Upload(uploadFileStream, new BlobHttpHeaders { ContentType = contentType });
+                uploadFileStream.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+
         }
 
         public async Task<string> DownloadFileAsync(string filePathWithName, string destinationPath)

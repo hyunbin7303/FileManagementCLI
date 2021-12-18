@@ -81,11 +81,14 @@ namespace FileManager
                     var files = WinFileManageHelper.GetAllFiles(path);
                     foreach(var file in files)
                     {
-                        await azureBlobAdapter.UploadAsync(path, file.Name, file.Attributes.ToString());
+                        var test = azureBlobAdapter.UploadAsync(path, file.Name, file.Attributes.ToString());
+                        if (test)
+                        {
+                            _log.LogInformation($"File:{file.FullName} is inserted to the Azure Blob.");
+                        }
                         // TODO : Need to remove file from the directory
                         // TODO : Need to update the data(record) in the sql server. 
                         //_fileDbContext.Files.Add(file);
-                        _log.LogInformation($"File:{file.FullName} is inserted to the Azure Blob.");
 
                     }
                     break;

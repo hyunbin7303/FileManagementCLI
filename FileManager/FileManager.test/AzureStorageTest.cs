@@ -21,7 +21,7 @@ namespace FileManager.test
         public async Task Upload_ReturnTrueIfSuccess()
         {
             AzureBlobAdapter azureBlobRepository = new AzureBlobAdapter(_azureConnectionStr, "container01");
-            var check = await azureBlobRepository.UploadAsync("C:\\Kevin\\TestFolder\\JsonTest.json", "Kevin.json", "application/json");
+            var check =  azureBlobRepository.UploadAsync("C:\\Kevin\\TestFolder\\JsonTest.json", "Kevin.json", "application/json");
             Assert.IsTrue(check);
         }
 
