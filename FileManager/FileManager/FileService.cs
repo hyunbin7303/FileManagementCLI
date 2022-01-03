@@ -67,7 +67,7 @@ namespace FileManager
             throw new NotImplementedException();
         }
 
-        public async Task<bool> UploadFilesToDestination(StorageType module, object provider, string userId, string fileName, string path)
+        public bool UploadFileToDestination(StorageType module, object provider, string userId, string fileName, string path)
         {
             switch(module)
             {
@@ -77,19 +77,12 @@ namespace FileManager
                 case StorageType.AzureBlobStorage:
                     var check = (CloudSetup)provider;
                     AzureBlobAdapter azureBlobAdapter = new AzureBlobAdapter(check.ConnString, check.ContainerName);
-
-                    var files = WinFileManageHelper.GetAllFiles(path);
-                    foreach(var file in files)
+                    if (azureBlobAdapter.UploadFile(userId, path, fileName, ""))
                     {
-                        var test = azureBlobAdapter.UploadAsync(path, file.Name, file.Attributes.ToString());
-                        if (test)
-                        {
-                            _log.LogInformation($"File:{file.FullName} is inserted to the Azure Blob.");
-                        }
+                        _log.LogInformation($"File:{fileName} is inserted to the Azure Blob.");
                         // TODO : Need to remove file from the directory
                         // TODO : Need to update the data(record) in the sql server. 
                         //_fileDbContext.Files.Add(file);
-
                     }
                     break;
 

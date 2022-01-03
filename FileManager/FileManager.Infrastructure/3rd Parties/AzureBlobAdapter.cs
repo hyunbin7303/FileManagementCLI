@@ -23,7 +23,7 @@ namespace FileManager.Infrastructure._3rd_Parties
             _blobContainerClient.CreateIfNotExists(PublicAccessType.BlobContainer);
         }
 
-        public bool UploadFile(string localFilePath, string filePathWithName, string contentType)
+        public bool UploadFile(string userName, string localFilePath, string fileName, string contentType)
         {
             try
             {
@@ -31,11 +31,11 @@ namespace FileManager.Infrastructure._3rd_Parties
                 //if (createResponse != null && createResponse.GetRawResponse().Status == 201)
                 //    await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
 
-                BlobClient blobClient = _blobContainerClient.GetBlobClient(filePathWithName);
+                BlobClient blobClient = _blobContainerClient.GetBlobClient(userName + "|" + fileName);
                 //      await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots); 
 
 
-                using FileStream uploadFileStream = File.OpenRead(localFilePath + "//" + filePathWithName);
+                using FileStream uploadFileStream = File.OpenRead(localFilePath + "//" + fileName);
                 var check = blobClient.Upload(uploadFileStream, new BlobHttpHeaders { ContentType = contentType });
                 uploadFileStream.Close();
                 return true;
