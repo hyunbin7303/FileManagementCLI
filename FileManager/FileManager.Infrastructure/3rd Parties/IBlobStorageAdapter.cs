@@ -12,7 +12,7 @@ namespace FileManager.Infrastructure._3rd_Parties
     {
         BlobClient OpenBlobClient(string connection, string containerName, string blobName);
         public Task<string> DownloadFileAsync(string filePathWithName, string destinationPath);
-        bool UploadFile(string userName, string localFilePath, string fileName, string contentType);
+        bool UploadFile(string FilePathWithFileName, string fileName, string contentType);
         Task<int> ReadAsync(BlobDownloadInfo download, byte[] buffer);
         Task<bool> Delete(string pathAndFileName);
 

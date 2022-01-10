@@ -2,6 +2,7 @@
 using FileManager.Domain.Models;
 using FileManager.Infrastructure;
 using FileManager.Infrastructure._3rd_Parties;
+using FileManager.Infrastructure.Helpers;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -77,12 +78,13 @@ namespace FileManager
                 case StorageType.AzureBlobStorage:
                     var check = (CloudSetup)provider;
                     AzureBlobAdapter azureBlobAdapter = new AzureBlobAdapter(check.ConnString, check.ContainerName);
-                    if (azureBlobAdapter.UploadFile(userId, path, fileName, ""))
+                    string pathWithFileName = $"{path}\\{fileName}";
+                    if (azureBlobAdapter.UploadFile(pathWithFileName, $"{userId}|{fileName}", ""))
                     {
                         _log.LogInformation($"File:{fileName} is inserted to the Azure Blob.");
-                        // TODO : Need to remove file from the directory
-                        // TODO : Need to update the data(record) in the sql server. 
-                        //_fileDbContext.Files.Add(file);
+                        string fileType = MimeTypeMap.GetMimeType(pathWithFileName);
+                        File file = new File(fileName, "Hyunbin7303", true, FileStatus.Added, fileType, StorageType.AzureBlobStorage, "OnlyUser",null);
+                        _fileDbContext.Files.Add(file);
                     }
                     break;
 

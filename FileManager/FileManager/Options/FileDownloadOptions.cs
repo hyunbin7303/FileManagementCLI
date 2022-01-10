@@ -12,6 +12,14 @@ using FileManager.Domain;
 
 namespace FileManager
 {
+
+    public enum DownloadOption
+    {
+        SelectOne,
+        SelectAll,
+    }
+
+
     [Verb("file-download", HelpText = "File Download.")]
     public class FileDownloadOptions : Options
     {
@@ -29,10 +37,16 @@ namespace FileManager
         [Option('d', "destination", HelpText = "Destination to download the data.")]
         public string Destination { get; set; }
 
-        public CloudSetup AzureSetup { get; set; } = new CloudSetup();
+        public CloudSetup CloudSetup { get; set; } = new CloudSetup();
 
         private IFileService _fileService;
+        public FileDownloadOptions() { }
 
+        public FileDownloadOptions(User user, CloudSetup cloudSetup)
+        {
+            this.user = user;
+            this.CloudSetup = cloudSetup;
+        }
         public int RunAddAndReturnExitCode(FileDownloadOptions options, IFileService fileService)
         {
             _fileService = fileService;
@@ -86,7 +100,7 @@ namespace FileManager
         }
         private async Task DownloadAzureInfo(string filePathWithName, string destinationPath)
         {
-            AzureBlobAdapter adapter = new AzureBlobAdapter(AzureSetup.ConnString, AzureSetup.ContainerName);
+            AzureBlobAdapter adapter = new AzureBlobAdapter(CloudSetup.ConnString, CloudSetup.ContainerName);
             var check  = await adapter.DownloadFileAsync(filePathWithName, destinationPath);
         }
 

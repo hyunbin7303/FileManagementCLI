@@ -1,6 +1,7 @@
 ﻿using FileManager.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace FileManager.Infrastructure
         public DbSet<File> Files { get; set; }
         public DbSet<Folder> Folders { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<FileFolder> FileFolders { get; set; }
 
         public FileDbContext(DbContextOptions<FileDbContext> options) : base(options) { }
 

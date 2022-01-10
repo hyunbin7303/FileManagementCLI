@@ -38,7 +38,11 @@ namespace FileManager
         }
         private void Run(object obj)
         {
-            CloudSetup cloudSetup = new CloudSetup();
+            // User setup in here.
+            User user = new User(_config.GetValue<string>("UserId"), 0, "SampleUserName","Domain", UserPermission.Normal, "Email@google.com", true);
+            CloudSetup cloudSetup = new CloudSetup(_config.GetValue<string>("UserId"));
+            
+            // Need to figure it out how to change below configuration setup into the one line.
             cloudSetup.ConnString = _config.GetValue<string>("MySettings:AzureStorageKey");
             cloudSetup.ContainerName = _config.GetValue<string>("MySettings:AzureContainerName");
             cloudSetup.DefaultFolder = _config.GetValue<string>("DefaultFolder");
@@ -47,22 +51,18 @@ namespace FileManager
             {
                 // file uploader & Downloader Azure setup config needs to be fixed. Duplicated Code. 
                 case FileUploadOptions c:
-                    FileUploadOptions fileUploader = new FileUploadOptions();
-                    fileUploader.user.UserId = _config.GetValue<string>("UserId");
-                    fileUploader.AzureSetup = cloudSetup;
+                    FileUploadOptions fileUploader = new FileUploadOptions(user, cloudSetup);
                     fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj, _fileService);
                     break;
 
                 case FileDownloadOptions f:
-                    FileDownloadOptions fileDownloader = new FileDownloadOptions();
-                    fileDownloader.user.UserId = _config.GetValue<string>("UserId");
-                    fileDownloader.AzureSetup  = cloudSetup;
+                    FileDownloadOptions fileDownloader = new FileDownloadOptions(user, cloudSetup);
                     fileDownloader.RunAddAndReturnExitCode((FileDownloadOptions)obj, _fileService);
                     break;
 
                 case DirectoryChangeOptions d:
                     DirectoryChangeOptions directoryChangeOptions = new DirectoryChangeOptions();
-                    //directoryChangeOptions.
+                    directoryChangeOptions.RunAddAndReturnExitCode((DirectoryChangeOptions)obj, _fileService);
                     break;
 
                 case DisplayOptions q:

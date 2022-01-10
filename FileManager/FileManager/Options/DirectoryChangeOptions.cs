@@ -20,5 +20,9 @@ namespace FileManager
             // TODO: Update the sql config table for changing directory.
             // SQL Connection needs to come here. 
         }
+        public void RunAddAndReturnExitCode(DirectoryChangeOptions options, IFileService fileService)
+        {
+
+        }
     }
 }
