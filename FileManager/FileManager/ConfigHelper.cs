@@ -26,12 +26,14 @@ namespace FileManager
                 {
 
                 })
+
                 .ConfigureServices((context, service) =>
                 {
-                    service.AddDataBase(context.Configuration);
+                    //service.AddDbContextFactory<>
+                    service.AddDatabase(context.Configuration);
                     service.AddSingleton(context.Configuration);
                     service.AddTransient<IFileConfigService, FileConfigService>();
-                    service.AddTransient<IFileService, FileService>();
+                    service.AddScoped<IFileService, FileService>();
                     MyAppData.Configuration = context.Configuration;
                 })
                 .ConfigureLogging((context, builder) =>

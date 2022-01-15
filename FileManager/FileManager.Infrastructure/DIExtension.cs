@@ -10,7 +10,7 @@ namespace FileManager.Infrastructure
 {
     public static class DIExtension
     {
-        public static IServiceCollection AddDataBase(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<FileDbContext>(c =>
                 //c.UseNpgsql(Configuration.GetConnectionString("PostgresConnection"))

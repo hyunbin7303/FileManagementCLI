@@ -11,15 +11,23 @@ using System.Threading.Tasks;
 
 namespace FileManager.Infrastructure
 {
-    public class FileDbContext : DbContext
+    public partial class FileDbContext : DbContext
     {
-        public DbSet<File> Files { get; set; }
-        public DbSet<Folder> Folders { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<FileFolder> FileFolders { get; set; }
+        public virtual DbSet<File> Files { get; set; }
+        public virtual DbSet<Folder> Folders { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<FileFolder> FileFolders { get; set; }
 
-        public FileDbContext(DbContextOptions<FileDbContext> options) : base(options) { }
 
+        public FileDbContext(DbContextOptions<FileDbContext> options) : base(options)
+        { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                //optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FileManager;Integrated Security=True");
+            }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<FileFolder>()
@@ -36,22 +44,26 @@ namespace FileManager.Infrastructure
             //    .WithMany(f => f.FileFolders)
             //    .HasForeignKey(ff => ff.FolderId)
             //    .OnDelete(DeleteBehavior.NoAction);
-        }
+
+            OnModelCreatingPartial(modelBuilder);
+    }
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
     }
 
-    public class FileContextDesignFactory : IDesignTimeDbContextFactory<FileDbContext>
-    {
-        public FileDbContext CreateDbContext(string[] args)
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                    .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-            var builder = new DbContextOptionsBuilder<FileDbContext>();
-            var connectionString = configuration.GetConnectionString("SQLServerConnection");
-            builder.UseSqlServer(connectionString);
-            return new FileDbContext(builder.Options);
-        }
-    }
+    //public class FileContextDesignFactory : IDesignTimeDbContextFactory<FileDbContext>
+    //{
+    //    public FileDbContext CreateDbContext(string[] args)
+    //    {
+    //        IConfigurationRoot configuration = new ConfigurationBuilder()
+    //                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+    //                .AddJsonFile("appsettings.json")
+    //                .Build();
+    //        var builder = new DbContextOptionsBuilder<FileDbContext>();
+    //        var connectionString = configuration.GetConnectionString("SQLServerConnection");
+    //        builder.UseSqlServer(connectionString);
+    //        return new FileDbContext(builder.Options);
+    //    }
+    //}
 
 }

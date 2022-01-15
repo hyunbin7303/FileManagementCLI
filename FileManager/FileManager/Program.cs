@@ -20,18 +20,24 @@ namespace FileManager
         static void Main(string[] args)
         {
             var host = ConfigHelper.CreateHostBuilder(args).Build();
-            var fileConfigService = ActivatorUtilities.CreateInstance<FileConfigService>(host.Services); //This is the way of using service.
-            var fileService = ActivatorUtilities.CreateInstance<FileService>(host.Services);
-
+            IFileService fileService = null;
+            IFileConfigService fileConfigService = null;
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<FileDbContext>();
-                context.Database.EnsureCreated(); 
+                fileService = services.GetService<IFileService>();
+                fileConfigService = services.GetService<IFileConfigService>();
+
+                //var aa = context.Files.SingleOrDefault();
+                //var ab = fileService.GetFiles();
+
+                context.Database.EnsureCreated();
+
+                CommandLineRunner commandLineConfig = new CommandLineRunner(MyAppData.Configuration, fileConfigService, fileService);
+                commandLineConfig.CliConfig(args);
             }
-            
-            CommandLineRunner commandLineConfig = new CommandLineRunner(MyAppData.Configuration, fileConfigService, fileService);
-            commandLineConfig.CliConfig(args);
+
         }
     }
 }

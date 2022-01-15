@@ -19,14 +19,12 @@ namespace FileManager
         private readonly ILogger<FileService> _log;
         private readonly FileDbContext _fileDbContext;
 
-        public FileService(ILogger<FileService> log)
-        {
-            _log = log;
-        }
 
-        public FileService(FileDbContext dbContext)
+        public FileService(ILogger<FileService> log,FileDbContext dbContext)
         {
             _fileDbContext = dbContext;
+            _log = log;
+
         }
 
         public Task CreateFolderInDirectory(string targetDirectory, string fileName)
@@ -79,11 +77,13 @@ namespace FileManager
                     var check = (CloudSetup)provider;
                     AzureBlobAdapter azureBlobAdapter = new AzureBlobAdapter(check.ConnString, check.ContainerName);
                     string pathWithFileName = $"{path}\\{fileName}";
-                    if (azureBlobAdapter.UploadFile(pathWithFileName, $"{userId}|{fileName}", ""))
+                    string fileType = MimeTypeMap.GetMimeType(pathWithFileName);
+                    if (azureBlobAdapter.UploadFile(pathWithFileName, $"{userId}|{fileName}", fileType))
                     {
                         _log.LogInformation($"File:{fileName} is inserted to the Azure Blob.");
-                        string fileType = MimeTypeMap.GetMimeType(pathWithFileName);
                         File file = new File(fileName, "Hyunbin7303", true, FileStatus.Added, fileType, StorageType.AzureBlobStorage, "OnlyUser",null);
+
+                        GetFiles();
                         _fileDbContext.Files.Add(file);
                     }
                     break;
