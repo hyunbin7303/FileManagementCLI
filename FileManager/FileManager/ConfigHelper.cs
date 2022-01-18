@@ -1,4 +1,7 @@
-﻿using FileManager.Infrastructure;
+﻿using Common.Interfaces;
+using FileManager.Infrastructure;
+using FileManager.Infrastructure.Interfaces;
+using FileManager.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,14 +33,18 @@ namespace FileManager
                 .ConfigureServices((context, service) =>
                 {
                     //service.AddDbContextFactory<>
-                    service.AddDatabase(context.Configuration);
-                    service.AddSingleton(context.Configuration);
+                    service.AddDatabase(context.Configuration);//configure database
+                    service.AddSingleton(context.Configuration);//CommandLineRunner constructure needs IConfiguration
                     service.AddTransient<IFileConfigService, FileConfigService>();
                     service.AddScoped<IFileService, FileService>();
+                    service.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+                    service.AddTransient<IFileRepository, FileRepository>();
+                    service.AddTransient<IUserRepository, UserRepository>();
                     MyAppData.Configuration = context.Configuration;
                 })
                 .ConfigureLogging((context, builder) =>
                 {
+                    // use global serilog 
                     Log.Logger = new LoggerConfiguration()
                                             .ReadFrom.Configuration(context.Configuration)
                                             .Enrich.FromLogContext()

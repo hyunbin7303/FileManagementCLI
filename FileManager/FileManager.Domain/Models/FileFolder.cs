@@ -14,6 +14,7 @@ namespace FileManager.Domain.Models
         public int FileId { get; set; }
         public File File { get; set; }
         public int FolderId { get; set; }
+        public Folder Folder { get; set; }
 
     }
 }

@@ -13,6 +13,9 @@ namespace FileManager.Infrastructure
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<FileDbContext>(c =>
+                //todo 
+                //add logic to determine which database to use
+
                 //c.UseNpgsql(Configuration.GetConnectionString("PostgresConnection"))
                 c.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"))
             );

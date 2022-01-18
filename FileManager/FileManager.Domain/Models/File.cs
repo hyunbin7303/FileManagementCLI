@@ -33,7 +33,7 @@ namespace FileManager.Domain.Models
         [Column(TypeName = "nvarchar(30)")]
         public string FileAccessRules { get; set; } 
         public User User { get; set; }
-        //public List<FileFolder> FileFolders { get; set; }
+        public List<FileFolder> FileFolders { get; set; }
 
 
     }

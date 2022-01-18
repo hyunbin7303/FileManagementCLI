@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManager.test", "FileMan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManager.Infrastructure", "FileManager.Infrastructure\FileManager.Infrastructure.csproj", "{484D0074-9442-4478-8F28-148553C5AE2C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{A97C4B78-37FB-432F-B0D1-51AB28299959}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManager.Infrastructure.Tests", "FileManager.Infrastructure.Tests\FileManager.Infrastructure.Tests.csproj", "{23669FE2-826B-43D1-9A69-86F73332E3A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{484D0074-9442-4478-8F28-148553C5AE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{484D0074-9442-4478-8F28-148553C5AE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{484D0074-9442-4478-8F28-148553C5AE2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A97C4B78-37FB-432F-B0D1-51AB28299959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A97C4B78-37FB-432F-B0D1-51AB28299959}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A97C4B78-37FB-432F-B0D1-51AB28299959}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A97C4B78-37FB-432F-B0D1-51AB28299959}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23669FE2-826B-43D1-9A69-86F73332E3A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23669FE2-826B-43D1-9A69-86F73332E3A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23669FE2-826B-43D1-9A69-86F73332E3A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23669FE2-826B-43D1-9A69-86F73332E3A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,6 +23,8 @@ namespace FileManager.Infrastructure
         { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // if option builder is not configured, then use sqlserver as default database
+            // this should be configured in Infrastructure\DIExtension
             if (!optionsBuilder.IsConfigured)
             {
                 //optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FileManager;Integrated Security=True");
@@ -30,20 +32,20 @@ namespace FileManager.Infrastructure
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<FileFolder>()
-            //    .HasKey(ff => new {ff.FileId, ff.FolderId });
+            modelBuilder.Entity<FileFolder>()
+                .HasKey(ff => new { ff.FileId, ff.FolderId });
 
-            //modelBuilder.Entity<FileFolder>()
-            //    .HasOne(ff => ff.File)
-            //    .WithMany(f => f.FileFolders)
-            //    .HasForeignKey(ff => ff.FileId)
-            //    .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<FileFolder>()
+                .HasOne(ff => ff.File)
+                .WithMany(f => f.FileFolders)
+                .HasForeignKey(ff => ff.FileId)
+                .OnDelete(DeleteBehavior.NoAction);
 
-            //modelBuilder.Entity<FileFolder>()
-            //    .HasOne(ff => ff.Folder)
-            //    .WithMany(f => f.FileFolders)
-            //    .HasForeignKey(ff => ff.FolderId)
-            //    .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<FileFolder>()
+                .HasOne(ff => ff.Folder)
+                .WithMany(f => f.FileFolders)
+                .HasForeignKey(ff => ff.FolderId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             OnModelCreatingPartial(modelBuilder);
     }
@@ -51,19 +53,19 @@ namespace FileManager.Infrastructure
 
     }
 
-    //public class FileContextDesignFactory : IDesignTimeDbContextFactory<FileDbContext>
-    //{
-    //    public FileDbContext CreateDbContext(string[] args)
-    //    {
-    //        IConfigurationRoot configuration = new ConfigurationBuilder()
-    //                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-    //                .AddJsonFile("appsettings.json")
-    //                .Build();
-    //        var builder = new DbContextOptionsBuilder<FileDbContext>();
-    //        var connectionString = configuration.GetConnectionString("SQLServerConnection");
-    //        builder.UseSqlServer(connectionString);
-    //        return new FileDbContext(builder.Options);
-    //    }
-    //}
+    public class FileContextDesignFactory : IDesignTimeDbContextFactory<FileDbContext>
+    {
+        public FileDbContext CreateDbContext(string[] args)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+            var builder = new DbContextOptionsBuilder<FileDbContext>();
+            var connectionString = configuration.GetConnectionString("SQLServerConnection");
+            builder.UseSqlServer(connectionString);
+            return new FileDbContext(builder.Options);
+        }
+    }
 
 }

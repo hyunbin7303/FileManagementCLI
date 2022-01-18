@@ -3,6 +3,7 @@ using FileManager.Domain.Models;
 using FileManager.Infrastructure;
 using FileManager.Infrastructure._3rd_Parties;
 using FileManager.Infrastructure.Helpers;
+using FileManager.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,12 @@ namespace FileManager
         //TODO : SQL Connection. 
         //private readonly string _folderDirectory = "c://";
         private readonly ILogger<FileService> _log;
-        private readonly FileDbContext _fileDbContext;
+        private readonly IFileRepository _fileRepo;
 
-
-        public FileService(ILogger<FileService> log,FileDbContext dbContext)
+        public FileService(ILogger<FileService> log, IFileRepository fileRepo)
         {
-            _fileDbContext = dbContext;
             _log = log;
-
+            _fileRepo = fileRepo;
         }
 
         public Task CreateFolderInDirectory(string targetDirectory, string fileName)
@@ -35,29 +34,30 @@ namespace FileManager
 
         public async Task<File> GetFileByFileName(string fileName)
         {
-            var file = _fileDbContext.Files.FirstOrDefault(f =>f.FileName == fileName);
+            var file = _fileRepo.GetByFileName(fileName);
+            
             return await Task.FromResult(file);
         }
 
-        public Task<File> GetFileById(int Id)
+        public async Task<File> GetFileById(int Id)
         {
-            throw new NotImplementedException();
+            return await _fileRepo.FindByIdAsync(Id);
         }
 
         public IList<File> GetFiles()
         {
-            var files = (from f in _fileDbContext.Files where f.IsActive == true select f).ToList();
-            return files;
+            return _fileRepo.GetAll().ToArray();
         }
 
         public IList<File> GetFilesByUserId(string userId)
         {
-            var file = from f in _fileDbContext.Files
+            /*var file = from f in _fileDbContext.Files
                        where f.OwnerId.Equals(userId)
                        select f;
 
             var files =  _fileDbContext.Files.Where(f => f.OwnerId == userId).ToList();
-            return files;
+            return files;*/
+            throw new NotImplementedException();
 
         }
 
@@ -84,7 +84,7 @@ namespace FileManager
                         File file = new File(fileName, "Hyunbin7303", true, FileStatus.Added, fileType, StorageType.AzureBlobStorage, "OnlyUser",null);
 
                         GetFiles();
-                        _fileDbContext.Files.Add(file);
+                        _fileRepo.Add(file);
                     }
                     break;
 

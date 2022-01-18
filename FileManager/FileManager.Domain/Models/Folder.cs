@@ -22,10 +22,12 @@ namespace FileManager.Domain.Models
         public StorageType Remote { get; set; }
         [ForeignKey("OwnerId")]
         public User User { get; set; }
-        //public List<FileFolder> FileFolders { get; set; }
+        public List<FileFolder> FileFolders { get; set; }
     }
     public enum FolderStatus
     {
-
+        Added,
+        Modifed,
+        Deleted
     }
 }
