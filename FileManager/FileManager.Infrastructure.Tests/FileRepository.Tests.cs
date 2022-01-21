@@ -63,28 +63,28 @@ namespace FileManager.Infrastructure.Tests
                             UserId="test",
                         };
 
-                        var file = new File
-                        {
-                            Name="testfile",
-                            IsActive = false,
-                            Status = FileStatus.Added,
-                            Type = FileType.Image,
-                            Remote=Domain.SaveEnvironment.Local,
-                            User = user,
-                        };
+                        //var file = new File
+                        //{
+                        //    Name="testfile",
+                        //    IsActive = false,
+                        //    Status = FileStatus.Added,
+                        //    Type = FileType.Image,
+                        //    Remote=Domain.SaveEnvironment.Local,
+                        //    User = user,
+                        //};
 
-                        var folder = new Folder
-                        {
-                            Name="testfolder",
-                            Path = "test/path",
-                            Status = FolderStatus.Added,
-                            Remote = Domain.SaveEnvironment.Local,
-                            User = user,
-                        };
+                        //var folder = new Folder
+                        //{
+                        //    Name="testfolder",
+                        //    Path = "test/path",
+                        //    Status = FolderStatus.Added,
+                        //    Remote = Domain.SaveEnvironment.Local,
+                        //    User = user,
+                        //};
 
-                        var filefolder = new FileFolder { File = file,  Folder = folder };
+                        //var filefolder = new FileFolder { File = file,  Folder = folder };
 
-                        context.Add(file);
+                        //context.Add(file);
                         context.SaveChanges();
                     }
 
@@ -110,10 +110,10 @@ namespace FileManager.Infrastructure.Tests
                 using (var context = Fixture.CreateContext(transaction))
                 {
                     var repo = new FileRepository(context);
-                    var file = repo.GetById(id);
-                    Assert.Equal(Domain.SaveEnvironment.Local, file.Remote);
-                    Assert.Equal(FileStatus.Added, file.Status);
-                    Assert.Equal("testfile", file.Name);
+                    //var file = repo.GetById(id);
+                    //Assert.Equal(Domain.SaveEnvironment.Local, file.Remote);
+                    //Assert.Equal(FileStatus.Added, file.Status);
+                    //Assert.Equal("testfile", file.Name);
                 }
             }
         }

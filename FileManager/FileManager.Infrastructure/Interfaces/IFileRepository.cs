@@ -10,6 +10,8 @@ namespace FileManager.Infrastructure.Interfaces
 {
     public interface IFileRepository :IRepository<File>
     {
-        public File GetByFileName(string fileName); 
+        IList<File> GetByFileName(string fileName);
+        IList<File> GetAllFilesContains(string fileContains);
+        IList<File> GetAllFilesWithPermission();
     }
 }

@@ -23,9 +23,6 @@ namespace FileManager
             DisplayHelp();
             return 0;
         }
-        private void UserSetup()
-        {
-        }
         private void DisplayHelp()
         {
             Console.WriteLine("Display ----------------");
