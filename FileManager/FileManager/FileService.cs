@@ -85,6 +85,8 @@ namespace FileManager
 
                         GetFiles();
                         _fileRepo.Add(file);
+                        var changed = _fileRepo.SaveChanges();
+                        
                     }
                     break;
 

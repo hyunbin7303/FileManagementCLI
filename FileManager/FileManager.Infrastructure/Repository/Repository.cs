@@ -57,5 +57,13 @@ namespace FileManager.Infrastructure.Repository
         {
             _context.Set<T>().RemoveRange(entities);
         }
+        public int SaveChanges()
+        {
+            return _context.SaveChanges();
+        }
+        public Task<int> SaveChangesAsync()
+        {
+            return _context.SaveChangesAsync();
+        }
     }
 }

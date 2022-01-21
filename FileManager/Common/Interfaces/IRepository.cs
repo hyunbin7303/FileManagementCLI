@@ -20,5 +20,7 @@ namespace Common.Interfaces
         public  Task<T> FindByIdAsync(int id);
         public void Remove(T entity);
         public void RemoveRange(IEnumerable<T> entities);
+        public int SaveChanges();
+        public Task<int> SaveChangesAsync();
     }
 }
