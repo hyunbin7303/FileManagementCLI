@@ -50,24 +50,28 @@ namespace FileManager
             switch (obj)
             {
                 // file uploader & Downloader Azure setup config needs to be fixed. Duplicated Code. 
-                case FileUploadOptions c:
+                case FileUploadOptions:
                     FileUploadOptions fileUploader = new FileUploadOptions(user, cloudSetup);
                     fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj, _fileService);
                     break;
 
-                case FileDownloadOptions f:
+                case FileDownloadOptions:
                     FileDownloadOptions fileDownloader = new FileDownloadOptions(user, cloudSetup);
                     fileDownloader.RunAddAndReturnExitCode((FileDownloadOptions)obj, _fileService);
                     break;
 
-                case DirectoryChangeOptions d:
+                case DirectoryChangeOptions:
                     DirectoryChangeOptions directoryChangeOptions = new DirectoryChangeOptions();
                     directoryChangeOptions.RunAddAndReturnExitCode((DirectoryChangeOptions)obj, _fileService);
                     break;
 
-                case DisplayOptions q:
+                case DisplayOptions:
                     var displayOpt = new DisplayOptions();
                     displayOpt.Execute((DisplayOptions)obj);
+                    break;
+
+                case DeleteOptions:
+
                     break;
             }
         }

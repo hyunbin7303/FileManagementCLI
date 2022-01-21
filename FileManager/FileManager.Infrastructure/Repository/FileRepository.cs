@@ -13,10 +13,19 @@ namespace FileManager.Infrastructure.Repository
         {
             
         }
-        public File GetByFileName(string fileName)
+        public IList<File> GetByFileName(string fileName)
         {
-            return _context.Set<File>().FirstOrDefault(f => f.FileName == fileName);
-            //_fileDbContext.Files.FirstOrDefault(f => f.FileName == fileName);
+            return _context.Set<File>().Where(x => x.FileName == fileName).ToList();
+        }
+        public IList<File> GetAllFilesContains(string fileContains) 
+        {
+            return _context.Set<File>().Where(x => x.FileName.Contains(fileContains)).ToList();
+        }
+
+        public IList<File> GetAllFilesWithPermission()
+        {
+            // TODO : Checking the permission.
+            return null;
         }
     }
 }

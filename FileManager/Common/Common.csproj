@@ -5,10 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Constants\" />
-    <Folder Include="Entities\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="Services\" />
+    <Compile Remove="Constants\**" />
+    <Compile Remove="Entities\**" />
+    <Compile Remove="Exceptions\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Constants\**" />
+    <EmbeddedResource Remove="Entities\**" />
+    <EmbeddedResource Remove="Exceptions\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Constants\**" />
+    <None Remove="Entities\**" />
+    <None Remove="Exceptions\**" />
+    <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>

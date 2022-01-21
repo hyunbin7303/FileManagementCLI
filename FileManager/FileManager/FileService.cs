@@ -32,11 +32,19 @@ namespace FileManager
             throw new NotImplementedException();
         }
 
-        public async Task<File> GetFileByFileName(string fileName)
+        public Task DeleteAll(string userId)
         {
-            var file = _fileRepo.GetByFileName(fileName);
-            
-            return await Task.FromResult(file);
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteFile(string fileName, string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<File> GetFileByFileName(string fileName, string userId = null)
+        {
+            return _fileRepo.GetByFileName(fileName).Where(x=>x.User.UserId == userId).ToList();
         }
 
         public async Task<File> GetFileById(int Id)
@@ -80,13 +88,12 @@ namespace FileManager
                     string fileType = MimeTypeMap.GetMimeType(pathWithFileName);
                     if (azureBlobAdapter.UploadFile(pathWithFileName, $"{userId}|{fileName}", fileType))
                     {
-                        _log.LogInformation($"File:{fileName} is inserted to the Azure Blob.");
-                        File file = new File(fileName, "Hyunbin7303", true, FileStatus.Added, fileType, StorageType.AzureBlobStorage, "OnlyUser",null);
+                        File file = new File(fileName, userId, true, FileStatus.Added, fileType, StorageType.AzureBlobStorage, "OnlyUser",null);
 
                         GetFiles();
                         _fileRepo.Add(file);
                         var changed = _fileRepo.SaveChanges();
-                        
+                        _log.LogInformation($"File:{fileName} is inserted to the Azure Blob.");
                     }
                     break;
 

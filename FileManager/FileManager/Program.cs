@@ -33,7 +33,6 @@ namespace FileManager
                 //var ab = fileService.GetFiles();
 
                 context.Database.EnsureCreated();
-
                 CommandLineRunner commandLineConfig = new CommandLineRunner(MyAppData.Configuration, fileConfigService, fileService);
                 commandLineConfig.CliConfig(args);
             }
