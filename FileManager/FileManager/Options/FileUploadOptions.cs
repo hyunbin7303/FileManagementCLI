@@ -15,11 +15,22 @@ namespace FileManager
     [Verb("file-upload",  HelpText = "Upload the file to the specific directory.")]
     public class FileUploadOptions : Options
     {
+        private IFileService _fileService;
+        private IConfigurationService _configurationService;
         public FileUploadOptions(){}
-        public FileUploadOptions(User user, CloudSetup azureSetup)
+        public FileUploadOptions(User user,IFileService fileService, IConfigurationService configurationService)
         {
             this.user = user;
-            this.CloudSetup = azureSetup;
+            _fileService = fileService;
+            _configurationService = configurationService;
+            if(_configurationService != null)
+            {
+                this.CloudSetup = configurationService.GetCloudSetup();
+
+                //TODO Update below method
+               // this.user = configurationService.GetUser();
+            }
+
         }
         [Option("filename", Required = false, HelpText = "Input filename.")]
         public string filename { get; set; }
@@ -33,14 +44,10 @@ namespace FileManager
         [Option('d', "destination", HelpText = "Destination to store the data.")]
         public string Destination { get; set; }
 
-        public CloudSetup CloudSetup { get; set; } = new CloudSetup();
 
-        private IFileService _fileService;
-        private IFileConfigService _fileConfigService;
 
-        public int RunAddAndReturnExitCode(FileUploadOptions options, IFileService fileService)
+        public int RunAddAndReturnExitCode(FileUploadOptions options)
         {
-            _fileService = fileService;
             if (options.Verbose && !string.IsNullOrEmpty(options.Source))
             {
                 Console.WriteLine($"Verbose : {options.Verbose}");
@@ -59,19 +66,19 @@ namespace FileManager
             var userInput = Console.ReadLine();
             if (userInput == "1")
             {
-                var files = WinFileManageHelper.GetAllFiles(CloudSetup.AzureUploadFilePath);
+                var files = WinFileManageHelper.GetAllFiles(CloudSetup.UploadFilePath);
                 foreach (var file in files)
                 {
-                    _fileService.UploadFileToDestination(StorageType.AzureBlobStorage, CloudSetup, user.UserId, file.Name, CloudSetup.AzureUploadFilePath);
+                    _fileService.UploadFileToDestination(StorageType.AzureBlobStorage, CloudSetup, user.UserId, file.Name, CloudSetup.UploadFilePath);
                 }
 
             }
             else if (userInput == "2")
             {
-                var files = WinFileManageHelper.GetAllFiles(CloudSetup.AzureUploadFilePath);
+                var files = WinFileManageHelper.GetAllFiles(CloudSetup.UploadFilePath);
                 Console.WriteLine("Please enter file name.");
                 var fileNameInput = Console.ReadLine();
-                _fileService.UploadFileToDestination(StorageType.AzureBlobStorage, CloudSetup, user.UserId, fileNameInput, CloudSetup.AzureUploadFilePath);
+                _fileService.UploadFileToDestination(StorageType.AzureBlobStorage, CloudSetup, user.UserId, fileNameInput, CloudSetup.UploadFilePath);
             }
             else
             {

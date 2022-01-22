@@ -20,14 +20,12 @@ namespace FileManager
         static void Main(string[] args)
         {
             var host = ConfigHelper.CreateHostBuilder(args).Build();
-            IFileService fileService = null;
-            IFileConfigService fileConfigService = null;
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<FileDbContext>();
-                fileService = services.GetService<IFileService>();
-                fileConfigService = services.GetService<IFileConfigService>();
+                IFileService fileService = services.GetService<IFileService>();
+                IConfigurationService fileConfigService = services.GetService<IConfigurationService>();
 
                 //var aa = context.Files.SingleOrDefault();
                 //var ab = fileService.GetFiles();

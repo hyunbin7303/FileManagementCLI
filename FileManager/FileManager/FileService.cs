@@ -19,12 +19,14 @@ namespace FileManager
         //private readonly string _folderDirectory = "c://";
         private readonly ILogger<FileService> _log;
         private readonly IFileRepository _fileRepo;
+        public string UserId { get;  set; }
 
         public FileService(ILogger<FileService> log, IFileRepository fileRepo)
         {
             _log = log;
             _fileRepo = fileRepo;
         }
+
 
         public Task CreateFolderInDirectory(string targetDirectory, string fileName)
         {
@@ -42,6 +44,7 @@ namespace FileManager
             throw new NotImplementedException();
         }
 
+
         public IList<File> GetFileByFileName(string fileName, string userId = null)
         {
             return _fileRepo.GetByFileName(fileName).Where(x=>x.User.UserId == userId).ToList();
@@ -55,6 +58,11 @@ namespace FileManager
         public IList<File> GetFiles()
         {
             return _fileRepo.GetAll().ToArray();
+        }
+
+        public IList<File> GetFilesByStorageType(StorageType storageType)
+        {
+            throw new NotImplementedException();
         }
 
         public IList<File> GetFilesByUserId(string userId)

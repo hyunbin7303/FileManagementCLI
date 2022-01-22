@@ -42,14 +42,14 @@ namespace FileManager
         private IFileService _fileService;
         public FileDownloadOptions() { }
 
-        public FileDownloadOptions(User user, CloudSetup cloudSetup)
+        public FileDownloadOptions(User user, CloudSetup cloudSetup, IFileService fileService)
         {
             this.user = user;
             this.CloudSetup = cloudSetup;
-        }
-        public int RunAddAndReturnExitCode(FileDownloadOptions options, IFileService fileService)
-        {
             _fileService = fileService;
+        }
+        public int RunAddAndReturnExitCode(FileDownloadOptions options)
+        {
             if (options.Verbose && !string.IsNullOrEmpty(options.Source))
             {
                 Console.WriteLine($"Verbose : {options.Verbose}");

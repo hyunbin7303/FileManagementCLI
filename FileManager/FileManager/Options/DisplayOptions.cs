@@ -14,15 +14,38 @@ namespace FileManager
     public class DisplayOptions : Options
     {
         private static string defaultFolder = "C:\\Uploader"; // Need to set up by t he appSettings.Json file.
+        private IFileService _fileService;
+
+        public DisplayOptions(){}
+        public DisplayOptions(User user, CloudSetup azureSetup, IFileService fileService) 
+        {
+            this.user = user;
+            this.CloudSetup = azureSetup;
+            _fileService = fileService;
+        }
+
+        [Option('p', "provider", Default = ".", HelpText = "Cloud Provider / Folder Repo")]
+        public string Provider { get; set; }
         public int Execute(DisplayOptions options)
         {
             if (options.Verbose)
             {
                 Console.WriteLine($"Verbose : {options.Verbose}");
             }
+            if (options.Provider != null)
+            {
+                if(options.Provider.ToLowerInvariant() == "azureblob" || options.Provider.ToLowerInvariant() == "az")
+                {
+                    _fileService.GetFiles();
+                    return 0;
+                }
+            }
+            _fileService.GetFiles();
             DisplayHelp();
             return 0;
         }
+
+
         private void DisplayHelp()
         {
             Console.WriteLine("Display ----------------");

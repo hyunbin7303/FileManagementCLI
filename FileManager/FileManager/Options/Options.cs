@@ -8,10 +8,12 @@ namespace FileManager
 {
     public class Options
     {
+        public CloudSetup CloudSetup { get; set; } 
         public User user { get; set; }
         public Options()
         {
             user = new User();
+            CloudSetup = new CloudSetup();
         }
         [Option("filename", Required = false, HelpText = "Input filename.")]
         public string filename { get; set; }

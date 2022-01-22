@@ -17,7 +17,7 @@ namespace FileManager.Domain
         public string ConnString { get; set; }
         public string ContainerName { get; set; }
         public string DefaultFolder { get; set; }
-        public string AzureUploadFilePath { get; set; }
+        public string UploadFilePath { get; set; }
 
     }
 }

@@ -8,7 +8,7 @@ namespace FileManager.Domain
 {
     public class CloudProvider : IEquatable<CloudProvider>
     {
-        public StorageType ID { get; set; }
+        public StorageType StorageTypeId { get; set; }
 
         public string Name { get; set; }
 
@@ -16,7 +16,7 @@ namespace FileManager.Domain
 
         public override int GetHashCode()
         {
-            return $"{ID}|{SyncFolder}".GetHashCode();
+            return $"{StorageTypeId}|{SyncFolder}".GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -30,7 +30,7 @@ namespace FileManager.Domain
 
         public bool Equals(CloudProvider other)
         {
-            return other != null && other.ID == ID && other.SyncFolder == SyncFolder;
+            return other != null && other.StorageTypeId == StorageTypeId && other.SyncFolder == SyncFolder;
         }
     }
 }

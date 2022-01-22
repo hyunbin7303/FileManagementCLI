@@ -35,7 +35,7 @@ namespace FileManager
                     //service.AddDbContextFactory<>
                     service.AddDatabase(context.Configuration);//configure database
                     service.AddSingleton(context.Configuration);//CommandLineRunner constructure needs IConfiguration
-                    service.AddTransient<IFileConfigService, FileConfigService>();
+                    service.AddTransient<IConfigurationService, ConfigurationService>();
                     service.AddScoped<IFileService, FileService>();
                     service.AddTransient(typeof(IRepository<>), typeof(Repository<>));
                     service.AddTransient<IFileRepository, FileRepository>();
