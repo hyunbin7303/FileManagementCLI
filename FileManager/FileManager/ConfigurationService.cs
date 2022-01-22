@@ -34,7 +34,11 @@ namespace FileManager
             cloudSetup.UploadFilePath = _config.GetValue<string>("MySettings:AzureUploadFilePath");
             return cloudSetup;
         }
-        
+
+        public User GetUser()
+        {
+            throw new NotImplementedException();
+        }
 
         public void Run()
         {
