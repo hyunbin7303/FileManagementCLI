@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileManager
 {
@@ -17,21 +15,7 @@ namespace FileManager
     {
         private IFileService _fileService;
         private IConfigurationService _configurationService;
-        public FileUploadOptions(){}
-        public FileUploadOptions(User user,IFileService fileService, IConfigurationService configurationService)
-        {
-            this.user = user;
-            _fileService = fileService;
-            _configurationService = configurationService;
-            if(_configurationService != null)
-            {
-                this.CloudSetup = configurationService.GetCloudSetup();
 
-                //TODO Update below method
-               // this.user = configurationService.GetUser();
-            }
-
-        }
         [Option("filename", Required = false, HelpText = "Input filename.")]
         public string filename { get; set; }
 
@@ -43,8 +27,15 @@ namespace FileManager
 
         [Option('d', "destination", HelpText = "Destination to store the data.")]
         public string Destination { get; set; }
+        public FileUploadOptions() { }
+        public FileUploadOptions(IFileService fileService, IConfigurationService configurationService)
+        {
+            _fileService = fileService;
+            _configurationService = configurationService;
+            if (_configurationService != null)
+                this.CloudSetup = configurationService.GetCloudSetup();
 
-
+        }
 
         public int RunAddAndReturnExitCode(FileUploadOptions options)
         {
@@ -84,14 +75,6 @@ namespace FileManager
             {
             }
         }
-        private int FileUploadToGoogleDrive(string path, string fileName)
-        {
-
-            // Upload file to the Google Drive.
-            return 0;
-        }
-
-
     }
 }
 

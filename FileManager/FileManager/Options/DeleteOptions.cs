@@ -11,20 +11,20 @@ namespace FileManager
 {
     public class DeleteOptions : Options
     {
+        private IFileService _fileService;
+        private IConfigurationService _configurationService;
         public DeleteOptions(){ }
-        public DeleteOptions(User user, CloudSetup azureSetup, IFileService fileService)
+        public DeleteOptions( IFileService fileService, IConfigurationService configurationService)
         {
-            this.user = user;
-            this.CloudSetup = azureSetup;
             _fileService = fileService;
+            _configurationService = configurationService;
         }
         [Option("filename", Required = false, HelpText = "Input filename.")]
         public string filename { get; set; }
         [Option('s', "source", Default = ".", HelpText = "The source directory for the files to process.")]
         public string Source { get; set; }
-        private IFileService _fileService;
 
-        public void RunApp(DeleteOptions options)
+        public void Execute(DeleteOptions options)
         {
             if (options.Verbose && !string.IsNullOrEmpty(options.Source))
             {

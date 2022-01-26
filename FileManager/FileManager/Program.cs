@@ -26,10 +26,6 @@ namespace FileManager
                 var context = services.GetRequiredService<FileDbContext>();
                 IFileService fileService = services.GetService<IFileService>();
                 IConfigurationService fileConfigService = services.GetService<IConfigurationService>();
-
-                //var aa = context.Files.SingleOrDefault();
-                //var ab = fileService.GetFiles();
-
                 context.Database.EnsureCreated();
                 CommandLineRunner commandLineConfig = new CommandLineRunner(MyAppData.Configuration, fileConfigService, fileService);
                 commandLineConfig.CliConfig(args);

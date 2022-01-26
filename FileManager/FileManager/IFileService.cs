@@ -8,17 +8,15 @@ namespace FileManager
 {
     public interface IFileService
     {
-        public string UserId { get; set; }  
-
         IList<File> GetFiles();
         IList<File> GetFilesByStorageType(StorageType storageType);
         Task<File> GetFileById(int Id);
         bool UploadFileToDestination(StorageType module, object provider, string userId, string fileName, string path);
-        IList<File> GetFilesByUserId(string userId);
+        IList<File> GetFilesByUserId(string userId = null);
         IList<File> GetFileByFileName(string fileName, string userId = null);
         Task<bool> IsFileUnique(string fileName, CancellationToken cancellationToken);
-        Task CreateFolderInDirectory(string targetDirectory, string fileName);
+        Task CreateFolderInDirectory();
         Task DeleteFile(string fileName, string userId);
-        Task DeleteAll(string userId);
+        Task DeleteAll();
     }
 }

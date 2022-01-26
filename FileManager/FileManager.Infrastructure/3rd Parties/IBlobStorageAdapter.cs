@@ -14,6 +14,7 @@ namespace FileManager.Infrastructure._3rd_Parties
         public Task<string> DownloadFileAsync(string filePathWithName, string destinationPath);
         bool UploadFile(string FilePathWithFileName, string fileName, string contentType);
         Task<int> ReadAsync(BlobDownloadInfo download, byte[] buffer);
+        Task<bool> DeleteAllContainFilename(string fileName);
         Task<bool> Delete(string pathAndFileName);
 
     }

@@ -9,7 +9,7 @@ namespace FileManager
         public void Run();
         public void DatabaseSetup();
         CloudSetup GetCloudSetup();
-        User GetUser();
+        string GetUserId();
     }
 
 }

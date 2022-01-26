@@ -39,6 +39,7 @@ namespace FileManager
                     service.AddScoped<IFileService, FileService>();
                     service.AddTransient(typeof(IRepository<>), typeof(Repository<>));
                     service.AddTransient<IFileRepository, FileRepository>();
+                    service.AddTransient<IFolderRepository, FolderRepository>();
                     service.AddTransient<IUserRepository, UserRepository>();
                     MyAppData.Configuration = context.Configuration;
                 })

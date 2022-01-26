@@ -27,7 +27,6 @@ namespace FileManager
         public CloudSetup GetCloudSetup()
         {
             CloudSetup cloudSetup = new CloudSetup(_config.GetValue<string>("UserId"));
-            // Need to figure it out how to change below configuration setup into the one line.
             cloudSetup.ConnString = _config.GetValue<string>("MySettings:AzureStorageKey");
             cloudSetup.ContainerName = _config.GetValue<string>("MySettings:AzureContainerName");
             cloudSetup.DefaultFolder = _config.GetValue<string>("DefaultFolder");
@@ -35,9 +34,9 @@ namespace FileManager
             return cloudSetup;
         }
 
-        public User GetUser()
+        public string GetUserId()
         {
-            throw new NotImplementedException();
+            return _config.GetValue<string>("UserId");
         }
 
         public void Run()

@@ -12,18 +12,18 @@ using FileManager.Domain;
 
 namespace FileManager
 {
-
     public enum DownloadOption
     {
         SelectOne,
         SelectAll,
     }
 
-
     [Verb("file-download", HelpText = "File Download.")]
     public class FileDownloadOptions : Options
     {
         public List<File> fileList = null;
+        private IFileService _fileService;
+        private IConfigurationService _configurationService;
 
         [Option('s', "source", Default = ".", HelpText = "The source directory for the files to process.")]
         public string Source { get; set; }
@@ -37,16 +37,17 @@ namespace FileManager
         [Option('d', "destination", HelpText = "Destination to download the data.")]
         public string Destination { get; set; }
 
-        public CloudSetup CloudSetup { get; set; } = new CloudSetup();
 
-        private IFileService _fileService;
+
         public FileDownloadOptions() { }
 
-        public FileDownloadOptions(User user, CloudSetup cloudSetup, IFileService fileService)
+        public FileDownloadOptions(IFileService fileService, IConfigurationService configurationService)
         {
-            this.user = user;
-            this.CloudSetup = cloudSetup;
             _fileService = fileService;
+            _configurationService = configurationService;
+            if (_configurationService != null)
+                this.CloudSetup = configurationService.GetCloudSetup();
+
         }
         public int RunAddAndReturnExitCode(FileDownloadOptions options)
         {
@@ -70,15 +71,17 @@ namespace FileManager
 
         private void SelectOptions()
         {
-            Console.WriteLine("Display ----------------");
-            Console.WriteLine("1. Downloading Azureblob file.");
+            Console.WriteLine("Display all files I have.");
+            _fileService.GetFileByFileName("");
+
+            Console.WriteLine("1. Download Azureblob file.");
             Console.WriteLine("2. Download all files from the Azure Blob.");
             Console.WriteLine("3. Exit.");
             var userInput = Console.ReadLine();
             if (userInput == "1")
             {
                 Log.Logger.Information("Downloading Azureblob file.");
-                var check = _fileService.GetFilesByUserId(user.UserId);
+                var check = _fileService.GetFilesByUserId();
                 foreach(var file in check)
                 {
                     DownloadAzureInfo("", "");
@@ -86,7 +89,7 @@ namespace FileManager
             }
             else if (userInput == "2")
             {
-                var check = _fileService.GetFilesByUserId(user.UserId);
+                var check = _fileService.GetFilesByUserId();
 
             }
             else if (userInput == "3")

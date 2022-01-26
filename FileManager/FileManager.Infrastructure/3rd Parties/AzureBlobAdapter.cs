@@ -104,5 +104,9 @@ namespace FileManager.Infrastructure._3rd_Parties
             return await download.Content.ReadAsync(buffer, 0, (int)download.ContentLength).ConfigureAwait(false);
         }
 
+        public Task<bool> DeleteAllContainFilename(string fileName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

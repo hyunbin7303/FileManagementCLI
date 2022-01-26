@@ -38,19 +38,17 @@ namespace FileManager
         }
         private void Run(object obj)
         {
-            // User setup in here.
-            User user = new User(_config.GetValue<string>("UserId"), 0, "SampleUserName","Domain", UserPermission.Normal, "Email@google.com", true);
-            CloudSetup cloudSetup = _configService.GetCloudSetup();
+
             switch (obj)
             {
                 // file uploader & Downloader Azure setup config needs to be fixed. Duplicated Code. 
                 case FileUploadOptions:
-                    FileUploadOptions fileUploader = new FileUploadOptions(user,  _fileService, _configService);
+                    FileUploadOptions fileUploader = new FileUploadOptions(_fileService, _configService);
                     fileUploader.RunAddAndReturnExitCode((FileUploadOptions)obj);
                     break;
 
                 case FileDownloadOptions:
-                    FileDownloadOptions fileDownloader = new FileDownloadOptions(user, cloudSetup, _fileService);
+                    FileDownloadOptions fileDownloader = new FileDownloadOptions(_fileService, _configService);
                     fileDownloader.RunAddAndReturnExitCode((FileDownloadOptions)obj);
                     break;
 
@@ -65,7 +63,8 @@ namespace FileManager
                     break;
 
                 case DeleteOptions:
-
+                    DeleteOptions deleteOptions = new DeleteOptions(_fileService, _configService);
+                    deleteOptions.Execute((DeleteOptions)obj);
                     break;
             }
         }

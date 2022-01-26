@@ -15,13 +15,14 @@ namespace FileManager
     {
         private static string defaultFolder = "C:\\Uploader"; // Need to set up by t he appSettings.Json file.
         private IFileService _fileService;
-
+        private IConfigurationService _configurationService;
         public DisplayOptions(){}
-        public DisplayOptions(User user, CloudSetup azureSetup, IFileService fileService) 
+        public DisplayOptions(IFileService fileService, IConfigurationService configurationService) 
         {
-            this.user = user;
-            this.CloudSetup = azureSetup;
             _fileService = fileService;
+            _configurationService = configurationService;
+            if (_configurationService != null)
+                this.CloudSetup = configurationService.GetCloudSetup();
         }
 
         [Option('p', "provider", Default = ".", HelpText = "Cloud Provider / Folder Repo")]
@@ -40,7 +41,6 @@ namespace FileManager
                     return 0;
                 }
             }
-            _fileService.GetFiles();
             DisplayHelp();
             return 0;
         }
@@ -49,20 +49,18 @@ namespace FileManager
         private void DisplayHelp()
         {
             Console.WriteLine("Display ----------------");
-            Console.WriteLine("1. Folder Destination display.");
-            Console.WriteLine("2. Application setup display.");
-            Console.WriteLine("3. More info.");
+            Console.WriteLine("1. Display all files");
+            Console.WriteLine("2. Display files in the Azure cloud.");
             var userInput = Console.ReadLine();
             if (userInput == "1")
             {
-                Console.WriteLine("Displaying Cloud/Folder information.");
-                FolderDestinationDisplay("Local");
+                var files = _fileService.GetFiles();
+                foreach(var file in files)
+                {
+                    Console.WriteLine(file.FileName);
+                }
             }
-            else if (userInput == "2")
-            {
-               
-            }
-            else if(userInput=="3")
+            else if(userInput=="2")
             {
 
             }
@@ -70,9 +68,7 @@ namespace FileManager
             {
                 return;
             }
-
         }
-
 
         private void FolderDestinationDisplay(string setupChoose)
         {
