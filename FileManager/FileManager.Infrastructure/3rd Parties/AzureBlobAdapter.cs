@@ -17,6 +17,7 @@ namespace FileManager.Infrastructure._3rd_Parties
     public class AzureBlobAdapter : IBlobStorageAdapter
     {
         private BlobContainerClient _blobContainerClient;
+        private string _userName;
         public AzureBlobAdapter(string connString, string containerName)
         {
             _blobContainerClient = new BlobContainerClient(connString, containerName);
@@ -53,20 +54,14 @@ namespace FileManager.Infrastructure._3rd_Parties
                 BlobDownloadInfo download = await blobClient.DownloadAsync();
                 byte[] result = new byte[download.ContentLength];
                 await download.Content.ReadAsync(result, 0, (int)download.ContentLength);
-
                 // provide the file download location below            
                 Stream file = File.OpenWrite(@"C:\" + destinationPath);
                 var test = await blobClient.DownloadToAsync(file);
-                Console.WriteLine("Download completed!" + test.ToString());
                 return Encoding.UTF8.GetString(result);
             }
             return string.Empty;
         }
-        public async Task<bool> Delete(string pathAndFileName)
-        {
-            BlobClient blobClient = _blobContainerClient.GetBlobClient(pathAndFileName);
-            return await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
-        }
+
 
         public async Task<List<string>> ListBlobsFlatListing(int? segmentSize)
         {
@@ -103,10 +98,10 @@ namespace FileManager.Infrastructure._3rd_Parties
             _ = download ?? throw new ArgumentNullException(nameof(download));
             return await download.Content.ReadAsync(buffer, 0, (int)download.ContentLength).ConfigureAwait(false);
         }
-
-        public Task<bool> DeleteAllContainFilename(string fileName)
+        public async Task<bool> DeleteFileAsync(string pathAndFileName)
         {
-            throw new NotImplementedException();
+            BlobClient blobClient = _blobContainerClient.GetBlobClient(pathAndFileName);
+            return await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
         }
     }
 }

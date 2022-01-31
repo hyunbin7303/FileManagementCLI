@@ -47,6 +47,13 @@ namespace FileManager.test
             var check = await adapter.DownloadFileAsync("Kevin.json", "");
             Assert.IsNotNull(check);
         }
+        [Test]
+        public async Task DeleteFileAsync_RemoveFileIfExists()
+        {
+            AzureBlobAdapter adapter = new AzureBlobAdapter(_azureConnectionStr, "container01");
+            var check = await adapter.DeleteFileAsync("Hyunbin7303|Kevin.txt");
+            Assert.IsNotNull(check);
+        }
 
     }
 }

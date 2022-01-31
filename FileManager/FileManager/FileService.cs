@@ -24,6 +24,7 @@ namespace FileManager
         private readonly IConfigurationService _configurationService;
 
         private string _userId;
+        private CloudSetup _cloudSetup;
         public FileService(ILogger<FileService> log, IConfigurationService configurationService, IFileRepository fileRepo, IFolderRepository folderRepo, IUserRepository userRepo)
         {
             _log = log;
@@ -32,6 +33,7 @@ namespace FileManager
             _userRepo = userRepo;
             _configurationService = configurationService;
             _userId = _configurationService.GetUserId();
+            _cloudSetup = _configurationService.GetCloudSetup();
         }
 
         public Task CreateFolderInDirectory()
@@ -39,17 +41,19 @@ namespace FileManager
             throw new NotImplementedException();
         }
 
-        public Task DeleteAll()
+        public async Task DeleteAll(string type = null)
         {
             var user = _userRepo.GetUserByUserId(_userId);
             if(user == null)
             {
-                return Task.CompletedTask;
             }
             //_fileRepo.RemoveRange()
-            AzureBlobAdapter azureBlobAdapter = new AzureBlobAdapter("", "");
-            azureBlobAdapter.Delete("");
-            return Task.FromResult(0);
+            AzureBlobAdapter azureBlobAdapter = new AzureBlobAdapter(_cloudSetup.ConnString, _cloudSetup.ContainerName);
+            var fileList = GetFilesByUserId();
+            foreach(var file in fileList)
+            {
+                await azureBlobAdapter.DeleteFileAsync(file.StoredFileName());
+            }
         }
 
         public Task DeleteFile(string fileName, string userId)
@@ -71,7 +75,7 @@ namespace FileManager
 
         public IList<File> GetFiles()
         {
-            return _fileRepo.GetAll().ToArray();
+            return _fileRepo.GetAll().ToList();
         }
 
         public IList<File> GetFilesByStorageType(StorageType storageType)
@@ -96,7 +100,7 @@ namespace FileManager
             throw new NotImplementedException();
         }
 
-        public bool UploadFileToDestination(StorageType module, object provider, string userId, string fileName, string path)
+        public bool UploadFileToDestination(StorageType module, string fileName, string path)
         {
             switch(module)
             {
@@ -104,13 +108,12 @@ namespace FileManager
                     break;
 
                 case StorageType.AzureBlobStorage:
-                    var setup = (CloudSetup)provider;
-                    AzureBlobAdapter azureBlobAdapter = new AzureBlobAdapter(setup.ConnString, setup.ContainerName);
+                    AzureBlobAdapter azureBlobAdapter = new AzureBlobAdapter(_cloudSetup.ConnString, _cloudSetup.ContainerName);
                     string pathWithFileName = $"{path}\\{fileName}";
                     string fileType = MimeTypeMap.GetMimeType(pathWithFileName);
-                    if (azureBlobAdapter.UploadFile(pathWithFileName, $"{userId}|{fileName}", fileType))
+                    if (azureBlobAdapter.UploadFile(pathWithFileName, $"{_userId}|{fileName}", fileType))
                     {
-                        File file = new File(fileName, userId, true, FileStatus.Added, fileType, StorageType.AzureBlobStorage, "OnlyUser",null);
+                        File file = new File(fileName, _userId, true, FileStatus.Added, fileType, StorageType.AzureBlobStorage, "OnlyUser",null);
                         _fileRepo.Add(file);
                         var changed = _fileRepo.SaveChanges();
                         _log.LogInformation($"File:{fileName} is inserted to the Azure Blob.");
@@ -125,7 +128,7 @@ namespace FileManager
             return false;
         }
 
-        public bool DownloadFileFromCloud(StorageType storage, object provider)
+        public bool DownloadFileFromCloud(StorageType storage, string fileName)
         {
             switch (storage)
             {
@@ -133,11 +136,8 @@ namespace FileManager
                     break;
 
                 case StorageType.AzureBlobStorage:
-                    var setup = (CloudSetup)provider;
-                    AzureBlobAdapter azureBlobAdapter = new AzureBlobAdapter(setup.ConnString, setup.ContainerName);
-                    azureBlobAdapter.DownloadFileAsync("", "");
-
-
+                    AzureBlobAdapter azureBlobAdapter = new AzureBlobAdapter(_cloudSetup.ConnString, _cloudSetup.ContainerName);
+                    azureBlobAdapter.DownloadFileAsync($"{_userId}|{fileName}", "");
                     //string pathWithFileName = $"{path}\\{fileName}";
                     //string fileType = MimeTypeMap.GetMimeType(pathWithFileName);
                     //if (azureBlobAdapter.UploadFile(pathWithFileName, $"{userId}|{fileName}", fileType))

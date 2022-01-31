@@ -35,6 +35,8 @@ namespace FileManager.Domain.Models
         public User User { get; set; }
         public List<FileFolder> FileFolders { get; set; }
 
+        public string StoredFileName() =>  $"{OwnerId}|{FileName}";
+
 
     }
 }

@@ -27,5 +27,11 @@ namespace FileManager
         [Option('v', "verbose", Default = false,HelpText = "Prints all messages to standard output.")]
         public bool Verbose { get; set; }
 
+        [Option('a', "--all", HelpText = "All files")]
+        public string All { get; set; }
+
+        //[Option('h', "help", Default = false, HelpText = "")]
+        //public string Help { get; set; }
+
     }
 }

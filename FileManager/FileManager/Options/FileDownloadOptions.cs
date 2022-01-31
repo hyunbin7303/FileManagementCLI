@@ -25,19 +25,17 @@ namespace FileManager
         private IFileService _fileService;
         private IConfigurationService _configurationService;
 
-        [Option('s', "source", Default = ".", HelpText = "The source directory for the files to process.")]
+        [Option('s', "source", HelpText = "The source directory for the files to process.")]
         public string Source { get; set; }
 
-        [Option('t', "Type", Default = ".", HelpText = "Type of storage")]
+        [Option('t', "--type", HelpText = "Type of storage")]
         public string Type { get; set; }
 
-        [Option('f', "FileName", Default = ".", HelpText = "File Name")]
+        [Option('f', "--file" , HelpText = "File Name")]
         public string FileName { get; set; }
 
-        [Option('d', "destination", HelpText = "Destination to download the data.")]
-        public string Destination { get; set; }
-
-
+        [Option('o', "destination", HelpText = "Destination to download the data.")]
+        public string Output { get; set; }
 
         public FileDownloadOptions() { }
 
@@ -56,13 +54,18 @@ namespace FileManager
                 Console.WriteLine($"Verbose : {options.Verbose}");
                 Console.WriteLine($"Source of Files: {options.Source}");
             }
-            if(!string.IsNullOrEmpty(options.Destination))
-            {
-                Log.Logger.Information("Destionation.");
-            }
             if (!string.IsNullOrEmpty(options.FileName))
             {
                 Log.Logger.Information("FileName.");
+            }
+            if(!string.IsNullOrEmpty(options.All))
+            {
+                Log.Logger.Information(options.All);
+                if (!string.IsNullOrEmpty(options.Type))
+                {
+
+                }
+                return 0;
             }
             Log.Logger.Information("File Dolwnload Options.");
             SelectOptions();

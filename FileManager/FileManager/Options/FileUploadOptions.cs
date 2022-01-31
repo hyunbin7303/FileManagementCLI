@@ -50,8 +50,6 @@ namespace FileManager
         private void SelectOptions()
         {
             Console.WriteLine("Uploader Option Display--------------------");
-            WinFileManageHelper.FileDisplay(CloudSetup.DefaultFolder);
-            Console.WriteLine("-------------------------------------------");
             Console.WriteLine("1. Upload all files to the Azure blob.");
             Console.WriteLine("2. Upload the specific file to the Azure blob.");
             var userInput = Console.ReadLine();
@@ -60,16 +58,16 @@ namespace FileManager
                 var files = WinFileManageHelper.GetAllFiles(CloudSetup.UploadFilePath);
                 foreach (var file in files)
                 {
-                    _fileService.UploadFileToDestination(StorageType.AzureBlobStorage, CloudSetup, user.UserId, file.Name, CloudSetup.UploadFilePath);
+                    _fileService.UploadFileToDestination(StorageType.AzureBlobStorage, file.Name, CloudSetup.UploadFilePath);
                 }
-
+                 
             }
             else if (userInput == "2")
-            {
+            { 
                 var files = WinFileManageHelper.GetAllFiles(CloudSetup.UploadFilePath);
                 Console.WriteLine("Please enter file name.");
                 var fileNameInput = Console.ReadLine();
-                _fileService.UploadFileToDestination(StorageType.AzureBlobStorage, CloudSetup, user.UserId, fileNameInput, CloudSetup.UploadFilePath);
+                _fileService.UploadFileToDestination(StorageType.AzureBlobStorage, fileNameInput, CloudSetup.UploadFilePath);
             }
             else
             {
