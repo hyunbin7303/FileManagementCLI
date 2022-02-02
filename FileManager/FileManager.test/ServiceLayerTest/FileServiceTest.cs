@@ -2,6 +2,7 @@
 using FileManager.Infrastructure.Interfaces;
 using FileManager.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Serilog;
@@ -15,6 +16,7 @@ namespace FileManager.test.ServiceLayerTest
 {
     public class FileServiceTest
     {
+        private  ILogger<FileService> _log;
         private IConfigurationService _configurationService;
         private IFileService _fileService;
         private IFileRepository _fileRepo;
@@ -25,15 +27,15 @@ namespace FileManager.test.ServiceLayerTest
         {
             var optionsBuilder = new DbContextOptionsBuilder<FileDbContext>()
                 .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FileManager;Integrated Security=True");
-            Log.Logger = new LoggerConfiguration()
-                                    .Enrich.FromLogContext()
-                                    .WriteTo.Console()
-                                    .CreateLogger();
+            var serviceProvider = new ServiceCollection().AddLogging().BuildServiceProvider();
+            var factory = serviceProvider.GetService<ILoggerFactory>();
+            _log = factory.CreateLogger<FileService>();
+
             FileDbContext dbContext = new FileDbContext(optionsBuilder.Options);
             _fileRepo = new FileRepository(dbContext);
             _folderRepo = new FolderRepository(dbContext);
             _userRepo = new UserRepository(dbContext);
-            _fileService = new FileService(_logger, _configurationService, _fileRepo, _folderRepo, _userRepo);
+            _fileService = new FileService(_log, _configurationService, _fileRepo, _folderRepo, _userRepo);
 
 
         }
